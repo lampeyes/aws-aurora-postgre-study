@@ -123,105 +123,123 @@ TBD
 利用するデータやスクリプトのダウンロード
 ```
 
+# 2. ハンズオン
+* Amazon Redshiftハンズオンの1-2. CloudFormationによるハンズオン環境の構築で作成したスタックの一部を利用しAurora PostgreSQLクラスターの作成から基本的な操作を体験していただきます。
 
-## 1-2. CloudFormationによるハンズオン環境の構築
-* 「サービス」 → 「CloudFormation」 → 「スタックの作成」→
-* 「新しいスタックの作成」ボタン →　
-* 「Amazon S3 テンプレート URL の指定」チェックボックス →
-*  https://<your_workshop_bucket>.s3.amazonaws.com/master.yaml を入力　→
-*  スタックの名前 : aws-XXXX-study　(XXXXはユーザー名)　を入力　→
-*  MasterUserPass : xxxxxx (8文字以上、半角英数字大文字小文字いずれも１文字以上含む)を入力　→
-* 「次へ」ボタン →　オブション入力画面はデフォルトのまま「次へ」ボタン　→
-*  確認画面の最下部の「AWS CloudFormation によってカスタム名のついた IAM リソースが作成される場合があることを承認します。」チェックボックスをチェック　→　「作成」ボタン
-* ステータスが "CREATE_COMPLETE"　になるまで待ちます
+# 2-1. Aurora PostgreSQLクラスターの作成
+*特に記載のない選択箇所、入力箇所については、何も出ずデフォルトが選択されていることをご確認ください。
 
-**以下のスタックが構築されます:**
-```
-aws-XXXX-study-SecurityGroupStack-XXXXXXXXXXXXX [NESTED]
-aws-XXXX-study-IAMStack-XXXXXXXXXXXX [NESTED]
-aws-XXXX-study-VPCStack-XXXXXXXXXXXX [NESTED]
-aws-XXXX-study
-```
+「サービス」→「RDS」→「データベースの作成」→「エンジンの選択」→「Amazon Aurora」ラジオボタン→「PostgreSQL対応」ラジオボタン→「次へ」ボタン→
+「DBエンジンのバージョン」ドロップダウンメニュー→”Aurora PostgreSQL (compatible with PostgreSQL 9.6.8)を選択
+「DBインスタンスクラス」ドロップダウンメニュー→"db.r4.large - 2 vcpu, 15.25 GiB RAM"を選択
+「DBインスタンス識別子」→"aup96-handson"を入力
+「マスターユーザの名前」→"hogehoge"を入力
+「マスターパスワード」、「パスワードの確認」に同じパスワードを設定（入力したパスワードは忘れないようご注意ください。）
+「次へ」ボタンをクリック。
 
-# 2. 接続確認
+「Virtual Priavate Cloud (VPC)」ドロップダウンメニュー→ "デフォルト VPC" を選択
+「サブネット」ドロップダウンメニュー→ "default" を選択
+「アベイラビリティゾーン」ドロップダウンメニュー→"ap-northwest-1a"　を選択
 
-## 2-1. Management Console (MC) からデータベースの状態を確認
+「DBクラスター識別子」→ "aup96-handson" を入力
+「データベースの名前」→ "aup96-handson" を入力
+
+「削除保護」チェックボックを外す
+「データベースも作成」ボタンクリック→「DBインスタンスの詳細表示」→インスタンスタブ
+
+* インスタンスタブで2つのDBインスタンスのステータスが"作成中"から"利用可能"に変化するまで待ちます。（クラスターの作成が完成するまで10分程度要します）
+
+* 各DBインスタンス名のリンクをクリックして、詳細情報を確認してみてくてください。Replicationペインでは、2つのDBインスタンスが、Writerなのか、Readerなのか確認することができます。また、各DBインスタンスの Instance Endpoint等なども確認できます。
+
 * 「サービス」→「RDS」→サイドバーの「クラスター」→クラスタータブに移動します。
 * クラスターが作成され、「状況」が"利用可能"になっていることを確認します。
 * 作成されているDBクラスター識別子のリンクをクリックして、クラスターの詳細情報を確認してみてください。Cluster Endpoint、Reader Endpointなどの詳細情報が確認できます。確認したEndpointをメモ帳などにコピーしておいてください。接続設定の作成で利用します。
 
-* サイドーバーの「インスタンス」→インスタンスタブに移動します。
-* DBインスタンスタブに、3つのDBインスタンスが作成されていることを確認してください。
-* 各DBインスタンスの「ステータス」が"利用可能"になっていることを確認してください。
-* 各DBインスタンス名のリンクをクリックして、詳細情報を確認してみてくてください。Replicationペインでは、3つのDBインスタンスが、Writerなのか、Readerなのか確認することができます。また、各DBインスタンスの Instance Endpoint等なども確認できます。
+## 2-1-2. アクセス元の制限
+* 「サービス」→「RDS」→「インスタンス」→「インスタンス」ペインの「DBインスタンス」にリストされている2つのDBのいずれか一つのリンクをクリック
+* 「接続」ペイン→「セキュリティグループ」の「タイプ」が "inbound"となっているセキュリティグループのリンクをクリックしてEC2ダッシューボードページへ移動
+* 「セキュリティグループ」ペインの「インバウンド」タブ→「編集」ボタン→「インバウンドルールの編集」ダイアログの「タイプ」が"PostgreSQL"となっているルールの「ソース」列にあるドロップメニュー→「マイIP」→「保存」ボタンをクリック（この操作で、Aurora PostgreSQLの各インスタンスは、現在捜査中のPCのIPアドレスからのアクセスのみ受け付けるようになります）
+
 
 ## 2-2. データベースへの接続確認
 # 2-2-1 接続設定の作成
-* PC常にインストールされている Psqledit を起動します。
-* 接続情報をいかの通り入力します。 ## 2-1. でコピーした Cluster Endpointと Writer Endpoint向けの2つの接続設定を作成します。
+* PC常にインストールされている Psqledit を起動します。Cluster Endpoint向け接続設定とWrite Endpoint向け接続設定の２つの設定を作成してください。
+* 接続設定に必要な情報は以下の通り
 ```
-TBD
+  2-1. でコピーした Cluster Endpointと Writer Endpoint と Port番号
+  2-1. で入力したマスターユーザー　と　パスワード
 ```
 # 2-2-2 接続とテスト
 * 作成したWriter Endpoint接続設定と、Reader Endpoint向け接続設定、ぞれぞれの情報に基づいて、実際に各エンドポイントに接続します。
 ```
 TBD
 ```
-# 3. ハンズオン
-* ここでは、Aurora PostgreSQLの基本的な使い方についてハンズオンを行なっていきます。
 
-## 3-1. Cluster Endpointからの接続
+## 2-3. Cluster Endpoint(Writer Endpoint)からの接続
+* 2-2-1で作成したCluster Endpointに接続して以下の操作を行います。
 * 以下のコマンド、DDL、SQL文を実行し、Cluster Endpointから表作成、データ登録など書き込み操作が行えることを確認します。書き込み操作の確認できたらデータベースからdisconnectします。
 ```
-入力するコマンドなど(コピペで可能な様に）
+create schema hoge;
+set search_path=hoge;
+select current_schema();
+create table foobar (
+  id numeric not null primary key
+  ,name character(20) not null
+  ,description character varying(40)
+);
+insert into foobar values(1,'test','test insertion');
 ```
 
-## 3-2. Reader Endpoinstからの接続
-* ## 3-1.と同じコマンドを Reader Endpointから行なってみてください。何が起こりましたか？
-
-```
-入力するコマンドなど(コピペで可能な様に）
-```
+## 2-4. Reader Endpointからの接続
+* 2-2-1で作成したReader Endpointに接続して以下の操作を行います。
 * 以下の、クエリーを実行してみてください。何が起こりましたか？
-
 ```
-入力するコマンドなど(コピペで可能な様に）
+select current_schema();
+set search_path=hoge;
+select current_schema();
+select * from foobar;
 ```
 
-## 3-3. スナップショットの取得
+* 以下の、クエリーを実行してみてください。何が起こりましたか？
+```
+select current_schema();
+set search_path=hoge;
+select current_schema();
+insert into foobar values(1,'test','test insertion');
+```
+
+## 2-5. スナップショットの取得
 * 手動で取得したスナップショツトはデータベースを完全に削除した場合でも削除されません。
 ```
 入力するコマンドなど(コピペで可能な様に）
 ```
 
-## 3-4. Replicaの追加(Readerの追加)
-
+## 2-6. Replicaの追加(Readerの追加)
 ```
 入力するコマンドなど(コピペで可能な様に）
 ```
 
-## 3-5. Replicaの削除(Readerの削除)
+## 2-7. Replicaの削除(Readerの削除)
+```
+入力するコマンドなど(コピペで可能な様に）
+```
+## 2-8. Clusterの停止
+```
+入力するコマンドなど(コピペで可能な様に）
+```
+## 2-9. Clusterの開始
+```
+入力するコマンドなど(コピペで可能な様に）
+```
+## 2-10. クラスター内の全DBインスタンスの削除
+```
+入力するコマンドなど(コピペで可能な様に）
+```
+## 2-11. リストア
+```
+入力するコマンドなど(コピペで可能な様に）
+```
 
-```
-入力するコマンドなど(コピペで可能な様に）
-```
-## 3-6. Clusterの停止
-```
-入力するコマンドなど(コピペで可能な様に）
-```
-## 3-7. Clusterの開始
-```
-入力するコマンドなど(コピペで可能な様に）
-```
-## 3-8. クラスター内の全DBインスタンスの削除
-```
-入力するコマンドなど(コピペで可能な様に）
-```
-## 3-9. リストア
-```
-入力するコマンドなど(コピペで可能な様に）
-```
-
-## 4. ハンズオン環境の削除
-* ## 3-8. と同じ手順でクラスター内の全DBインスタンスを削除してください。
+## 3. ハンズオン環境の削除
+* ## 2-7. と同じ手順でクラスター内の全DBインスタンスを削除してください。
 * "削除中"というステータスなった状態でMCからログアウトしていただいて構いません。
