@@ -2,22 +2,42 @@
 
 # 1. 環境構築準備
 ## 1-0. ハンズオンで利用するアカウント
-* TBD
-```
-TBD
-```
+* AWSプロフェッショナルサービスにて用意した以下のアカウントをご利用下さい。
+
+|no.|アカウントID|IAMユーザー|管理者|
+|---:|:---|:---|:---|
+|1|196063562359|TBD|AWS仲谷|
+|2|661677603911|TBD|AWS仲谷|
+|3|165722896290|TBD|AWS仲谷|
+|4|TBD|TBD|AWS関口|
+|5|TBD|TBD|AWS関口|
+|6|TBD|TBD|AWS関口|
+
+* パスワードは当日お知らせします。
 
 ## 1-1. ハンズオン向けコンテンツの取得
+* 以下のSQLファイルをダウンロードして下さい。
 ```
 利用するデータやスクリプトのダウンロード
 ```
 
 ## 1-2. CloudFormationによるハンズオン環境の構築
+### 1-2-1. VPC
 * 「サービス」 → 「CloudFormation」 → 「スタックの作成」→
 * 「新しいスタックの作成」ボタン →　
 * 「Amazon S3 テンプレート URL の指定」チェックボックス →
-*  https://<your_workshop_bucket>.s3.amazonaws.com/master.yaml を入力　→
-*  スタックの名前 : aws-XXXX-study　(XXXXはユーザー名)　を入力　→
+*  https://my-bucket-4-handson.s3.amazonaws.com/cfn/vpc.yaml を入力　→
+*  スタックの名前 : vpcXXXXX　(XXXXXは任意の文字列、3~5文字程度)　を入力　→
+* 「次へ」ボタン →　オブション入力画面はデフォルトのまま「次へ」ボタン　→
+* 確認画面　→　「作成」ボタン
+* ステータスが "CREATE_COMPLETE"　になるまで待ちます
+
+### 1-2-2. Redshift
+* 「サービス」 → 「CloudFormation」 → 「スタックの作成」→
+* 「新しいスタックの作成」ボタン →　
+* 「Amazon S3 テンプレート URL の指定」チェックボックス →
+*  https://my-bucket-4-handson.s3.amazonaws.com/cfn/redshift.yaml を入力　→
+*  スタックの名前 : redshiftXXXXX　(XXXXXは任意の文字列、3~5文字程度)　を入力　→
 *  MasterUserPass : xxxxxx (8文字以上、半角英数字大文字小文字いずれも１文字以上含む)を入力　→
 * 「次へ」ボタン →　オブション入力画面はデフォルトのまま「次へ」ボタン　→
 *  確認画面の最下部の「AWS CloudFormation によってカスタム名のついた IAM リソースが作成される場合があることを承認します。」チェックボックスをチェック　→　「作成」ボタン
@@ -25,10 +45,8 @@ TBD
 
 **以下のスタックが構築されます:**
 ```
-aws-XXXX-study-SecurityGroupStack-XXXXXXXXXXXXX [NESTED]
-aws-XXXX-study-IAMStack-XXXXXXXXXXXX [NESTED]
-aws-XXXX-study-VPCStack-XXXXXXXXXXXX [NESTED]
-aws-XXXX-study
+vpcXXXXX-ランダムな文字列
+redshiftXXXXX-ランダムな文字列
 ```
 
 # 2. 接続確認
