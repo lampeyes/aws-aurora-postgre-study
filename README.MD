@@ -22,15 +22,15 @@
 ### 1-2-1. VPC
 * 以下の手順でCloudFormationスタックを作成します。
   * 「サービス」 → 「CloudFormation」 → 「スタックの作成」→
-  * 「新しいスタックの作成」ボタン →　
-  * 「Amazon S3 テンプレート URL の指定」チェックボックス →
-    *　以下を指定 https://s3-ap-northeast-1.amazonaws.com/my-bucket-4-handson/Cfn/xsr-version/vpc.yml
+  * 「新しいスタックの作成」ボタン→　
+  * 「Amazon S3 テンプレート URL の指定」チェックボックス→
+   * 以下を指定 https://s3-ap-northeast-1.amazonaws.com/my-bucket-4-handson/Cfn/xsr-version/vpc.yml
 ```
 スタックの名前   : vpcXXXXX　(XXXXXは任意の文字列、3~5文字程度)　
 Env Type      :Dev
 Project Name  :任意
 ```
-  * 「次へ」ボタン →　オブション入力画面はデフォルトのまま「次へ」ボタン　→
+  * 「次へ」ボタン →　オブション入力画面はデフォルトのまま「次へ」ボタン→
   * 確認画面　→　「作成」ボタン
 * ステータスが "CREATE_COMPLETE"　になるまで待ちます。
 * 以下のスタックが構築されます。
@@ -43,7 +43,7 @@ vpcXXXXX-ランダムな文字列
   * 「サービス」 → 「CloudFormation」 → 「スタックの作成」→
   * 「新しいスタックの作成」ボタン →　
   * 「Amazon S3 テンプレート URL の指定」チェックボックス →
-    * 以下を指定　https://s3-ap-northeast-1.amazonaws.com/my-bucket-4-handson/Cfn/xsr-version/redshift.yml
+   * 以下を指定　https://s3-ap-northeast-1.amazonaws.com/my-bucket-4-handson/Cfn/xsr-version/redshift.yml
 ```
 スタックの名前     : redshiftXXXXX　(XXXXXは任意の文字列、3~5文字程度)　
 Env Type        : Dev
@@ -52,7 +52,7 @@ Common Password : xxxxxx (8文字以上、半角英数字大文字小文字い�
 ```
   * 「次へ」ボタン →　オブション入力画面はデフォルトのまま「次へ」ボタン　→
   *  確認画面の最下部の「AWS CloudFormation によってカスタム名のついた IAM リソースが作成される場合があることを承認します。」チェックボックスをチェック　→　「作成」ボタン
-  * ***パスワードは後で使用しますので、記録しておいて下さい***
+  * ***パスワードは後で使用しますので、記録しておいて下さい。***
 
 * ステータスが "CREATE_COMPLETE"　になるまで待ちます。
 * 以下のスタックが構築されます。
@@ -385,9 +385,9 @@ MAXERROR 1
 ## 3-3. メンテナンストラック、パラメーターグループ設定、WLM設定の閲覧
 * 「クラスター」→（クラスター名）、および「ワークロード管理」→「パラメータ」、「ワークロード管理」→「WLM」から、当該クラスターの様々な情報を確認できます。
 * 以下の情報を見つけてみて下さい。
- * メンテナンストラック
- * パラメーターグループのうち、enable_user_activity_logging（監査証跡）の設定
- * WLMのキュー数およびスロット数
+  * メンテナンストラック
+  * パラメーターグループのうち、enable_user_activity_logging（監査証跡）の設定
+  * WLMのキュー数およびスロット数
 * 不明な場合は講師にお尋ね下さい。
 
 ## 3-4. クエリーの実行
