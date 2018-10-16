@@ -524,7 +524,7 @@ aws redshift restore-from-cluster-snapshot --cluster-identifier 新しいクラ�
 →「サブネット」ドロップダウンメニュー→ "default" を選択
 →「アベイラビリティゾーン」ドロップダウンメニュー→"ap-northwest-1a"　を選択
 →「DBクラスター識別子」→ "ap96cXXXXX" (XXXXXは任意の文字列、3~5文字程度)を入力
-→「データベースの名前」→ "myda"
+→「データベースの名前」→ "mydb"
 →「削除保護」チェックボックスを外す
 →「データベースを作成」ボタンをクリック
 →「DBインスタンスの詳細表示」をクリック→インスタンスタブ
