@@ -507,7 +507,7 @@ aws redshift restore-from-cluster-snapshot --cluster-identifier 新しいクラ�
 * **特に記載のない選択箇所、入力箇所については、デフォルトが選択されていることをご確認ください**
 
 ```
-「サービス」→「RDS」→「データベースの作成」→「エンジンの選択」
+「サービス」→「RDS」→「クラスター」→「データベースの作成」ボタン→「エンジンの選択」
 →「Amazon Aurora」ラジオボタン→「PostgreSQL対応」ラジオボタン
 →「次へ」ボタン→「DBエンジンのバージョン」ドロップダウンメニュー
 →”Aurora PostgreSQL (compatible with PostgreSQL 9.6.8)を選択
@@ -523,8 +523,8 @@ aws redshift restore-from-cluster-snapshot --cluster-identifier 新しいクラ�
 → "デフォルト VPC" を選択
 →「サブネット」ドロップダウンメニュー→ "default" を選択
 →「アベイラビリティゾーン」ドロップダウンメニュー→"ap-northwest-1a"　を選択
-→「DBクラスター識別子」→ "ap96XXXXX" (XXXXXは任意の文字列、3~5文字程度)を入力
-→「データベースの名前」→ "ap96XXXXX" (XXXXXは任意の文字列、3~5文字程度)を入力
+→「DBクラスター識別子」→ "ap96cXXXXX" (XXXXXは任意の文字列、3~5文字程度)を入力
+→「データベースの名前」→ "myda"
 →「削除保護」チェックボックスを外す
 →「データベースを作成」ボタンをクリック
 →「DBインスタンスの詳細表示」をクリック→インスタンスタブ
