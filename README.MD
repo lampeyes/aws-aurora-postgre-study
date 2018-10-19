@@ -315,6 +315,7 @@ ALTER TABLE SH1.SALES
 
 ## 3-2. COPYの実行
 * COPYコマンドを実行し、Redshiftクラスターにsh1スキーマのデータを投入します。
+ * 日々のバッチの結果Redshiftにロードされるデータも、同じ方法で投入されます。 
 * ***IAM_ROLEの引数は、シングルクォートで囲った上で、以下のロールARN形式に記載下さい。***
   * arn:aws:iam::12桁のアカウントID:role/ロール名
 * ロールARNは、「サービス」→「IAM」→「ロール」から、スタック名を接頭辞として見つけ、一連のテキストとしてコピーすることができます。
@@ -387,17 +388,45 @@ MAXERROR 1
 ## 3-3. メンテナンストラック、パラメーターグループ設定、WLM設定の閲覧
 * 「クラスター」→（クラスター名）、および「ワークロード管理」→「パラメータ」、「ワークロード管理」→「WLM」から、当該クラスターの様々な情報を確認できます。
 * 以下の情報を見つけてみて下さい。
-  * メンテナンストラック
-  * パラメーターグループのうち、enable_user_activity_logging（監査証跡）の設定
+  * メンテナンストラックの設定（Currentか、Trailingか）
+  * パラメーターグループのうち、enable_user_activity_logging（監査証跡）の設定（有効か、無効か）
   * WLMのキュー数およびスロット数
 * 不明な場合は講師にお尋ね下さい。
 
 ## 3-4. クエリーの実行
 * SQLを実行し、sh1スキーマに投入したデータを確認します。
-```
-入力するコマンドなど(コピペで可能な様に）
-```
 
+### 3-4-1 データ確認
+* salesテーブルのデータを確認します。
+```
+SELECT
+ prod_id,
+ count(1) as deal_count,
+ avg(quantity_sold) as average_sold_num,
+ sum(quantity_sold*amount_sold) as total_sales
+FROM 
+ sh1.sales
+GROUP BY
+ prod_id
+ORDER BY
+ total_sales DESC
+LIMIT 2000
+;
+```
+### 3-4-2 テーブル確認
+* salesテーブルの構造を確認します。
+```
+SET search_path TO '$user', 'public', 'sh1'
+;
+
+SELECT
+ "column", type, encoding, distkey, sortkey, "notnull"
+FROM
+ pg_table_def
+WHERE
+ tablename = 'sales'
+;
+```
 ## 3-5. COPYおよびクエリーの実行状況の確認
 * コンソールを使って、COPYおよびクエリーの実行状況を確認します。
 
