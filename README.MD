@@ -28,7 +28,7 @@
 ```
 スタックの名前   : vpcXXXXX　(XXXXXは任意の文字列、3~5文字程度)　
 Env Type      : Dev
-Project Name  : 任意
+Project Name  : myproject
 ```
   * 「次へ」ボタン →　オブション入力画面はデフォルトのまま「次へ」ボタン→
   * 確認画面　→　「作成」ボタン
@@ -47,7 +47,7 @@ myvpc
 ```
 スタックの名前     : redshiftXXXXX　(XXXXXは任意の文字列、3~5文字程度)　
 Env Type        : Dev
-Project Name    : 任意
+Project Name    : myproject
 Common Password : xxxxxx (8文字以上、半角英数字大文字小文字いずれも１文字以上含む)を入力　→
 ```
   * 「次へ」ボタン →　オブション入力画面はデフォルトのまま「次へ」ボタン　→
@@ -65,7 +65,7 @@ redshiftXXXXX-redshiftcluster-ランダムな文字列
 ## 2-1. Management Console（MC）からクラスターの詳細情報を確認
 * 「サービス」→「Redshift」→「クラスター」タブに移動します。
 * クラスターが作成されていることを確認します。
-* 「クラスター」→当該クラスターをクリックすると、そのクラスターに移動して詳細情報を閲覧できます。「設定」タブ、「ステータス」タブをクリックして、それぞれどのような情報が表示されるか確認してみて下さい。
+* 「クラスター」→当該クラスターをクリックすると、クラスターエンドポイントを始め、そのクラスターに関する詳細情報を閲覧できます。「設定」タブ、「ステータス」タブをクリックして、それぞれどのような情報が表示されるか確認してみて下さい。
 
 ## 2-2. データベースへの接続確認
 ### 2-2-1 接続設定の作成
@@ -79,12 +79,12 @@ SSL Mode  : Prefer
 User ID   : awsuser
 Password  : （上記で入力したパスワード）
 ```
-* Redshiftクラスターのエンドポイント名は、クラスター詳細情報（2-1.）から探してみて下さい。
+* Redshiftクラスターのエンドポイント名は、クラスター詳細情報（2-1.）からコピペして下さい（ポート番号はペースト後、Backspaceで削除して下さい）。
 
-### 2-2-2 接続とテスト
+### 2-2-2 接続テスト
 * 入力した接続情報に基づいて、実際にRedshiftクラスターに接続します。
 * 接続したら、Aginityからawsuser.mydbスキーマをクリックし、pg_catarogデータベースをざっと外観してみて下さい。
-  * ここにはシステムテーブル（STL_XXX）やシステムビュー（STV_XXX、SVV_XXX）が格納されており、運用にあたってこれらのテーブルやビューは度々参照することになります。
+  * ここにはシステムテーブル（STL_XXX、STV_XXX）やシステムビュー（SVL_XXX、SVV_XXX）が格納されています。運用にあたって、これらのテーブルやビューはしばしば参照することになります。
 
 # 3. ハンズオン
 * ここでは、Redshiftの基本的な使い方についてハンズオンを行っていきます。
@@ -92,7 +92,9 @@ Password  : （上記で入力したパスワード）
 
 ## 3-1. スキーマの作成
 * AginityからDDLを実行し、スキーマを作成します。
- * Aginityに接続し、以下をコピペして実行
+  * Aginityに接続
+  * 上部のバーでDatabaseに ***mydb*** を選択
+  * 以下をコピペして実行
 
 ```
 CREATE SCHEMA IF NOT EXISTS sh1;
@@ -324,7 +326,7 @@ ALTER TABLE SH1.SALES
 COPY sh1.channels
 FROM 's3://my-bucket-4-handson/Data/redshift/data/sh1/channels/sh1_channels_manifest'
 IAM_ROLE '作成されたロールARN'
-DELIMITER '\t'
+DELIMITER '|'
 GZIP
 MANIFEST
 MAXERROR 1
@@ -333,7 +335,7 @@ MAXERROR 1
 COPY sh1.countries
 FROM 's3://my-bucket-4-handson/Data/redshift/data/sh1/countries/sh1_countries_manifest'
 IAM_ROLE '作成されたロールARN'
-DELIMITER '\t'
+DELIMITER '|'
 GZIP
 MANIFEST
 MAXERROR 1
@@ -342,7 +344,7 @@ MAXERROR 1
 COPY sh1.customers
 FROM 's3://my-bucket-4-handson/Data/redshift/data/sh1/customers/sh1_customers_manifest'
 IAM_ROLE '作成されたロールARN'
-DELIMITER '\t'
+DELIMITER '|'
 GZIP
 MANIFEST
 MAXERROR 1
@@ -351,7 +353,7 @@ MAXERROR 1
 COPY sh1.products
 FROM 's3://my-bucket-4-handson/Data/redshift/data/sh1/products/sh1_products_manifest'
 IAM_ROLE '作成されたロールARN'
-DELIMITER '\t'
+DELIMITER '|'
 GZIP
 MANIFEST
 MAXERROR 1
@@ -360,7 +362,7 @@ MAXERROR 1
 COPY sh1.promotions
 FROM 's3://my-bucket-4-handson/Data/redshift/data/sh1/promotions/sh1_promotions_manifest'
 IAM_ROLE '作成されたロールARN'
-DELIMITER '\t'
+DELIMITER '|'
 GZIP
 MANIFEST
 MAXERROR 1
@@ -369,7 +371,7 @@ MAXERROR 1
 COPY sh1.sales
 FROM 's3://my-bucket-4-handson/Data/redshift/data/sh1/sales/sh1_sales_manifest'
 IAM_ROLE '作成されたロールARN'
-DELIMITER '\t'
+DELIMITER '|'
 GZIP
 MANIFEST
 MAXERROR 1
@@ -378,7 +380,7 @@ MAXERROR 1
 COPY sh1.times
 FROM 's3://my-bucket-4-handson/Data/redshift/data/sh1/times/sh1_times_manifest'
 IAM_ROLE '作成されたロールARN'
-DELIMITER '\t'
+DELIMITER '|'
 GZIP
 MANIFEST
 MAXERROR 1
@@ -396,7 +398,7 @@ MAXERROR 1
 スナップショット識別子 : 任意
 ```
 * 当該スナップショットをクリックし、作成状況やサイズを確認します。
-  * スナップショットの作成にはしばらくかかります（通常は自動スナップショットからの差分ですが、今回は基底となる自動スナップショットがないため）ので、状況を確認いただければ先に進んでいただいて結構です。
+  * データ量が少ないため、スナップショットの作成は1分程度で完了します。
 
 ## 3-4. メンテナンストラック、パラメーターグループ設定、WLM設定の閲覧
 * 「クラスター」→（クラスター名）、および「ワークロード管理」→「パラメータ」、「ワークロード管理」→「WLM」から、当該クラスターの様々な情報を確認できます。
@@ -423,7 +425,6 @@ GROUP BY
  prod_id
 ORDER BY
  total_sales DESC
-LIMIT 2000
 ;
 ```
 ### 3-5-2 テーブル確認
@@ -496,13 +497,13 @@ aws redshift restore-from-cluster-snapshot --cluster-identifier 新しいクラ�
 
 ### 3.8.2. テーブルレベルの復元
 * 元のクラスターに対して、テーブルレベルでの復元を施します。
- * Aginityから、以下のコマンドを実行します。
+ * Aginityから、以下のコマンドを実行
 ```
-select count(1) from sh1.channels;
+select count(1) from sh1.sales;
 ```
- * 件数を確認後、テーブルをトランケートします。
+ * 件数を確認後、テーブルをトランケート
 ```
-truncate table sh1.channels;
+truncate table sh1.sales;
 ```
  * 再度件数を確認します。
  * MCから「クラスター」→（作成した元のクラスター）→「テーブルの復元」→「テーブルの復元」をクリック→
@@ -511,13 +512,16 @@ truncate table sh1.channels;
 時間の範囲 :　過去一週間
 復元元のソーステーブル/データベース :　 mydb
 復元元のソーステーブル/スキーマ : sh1　
-復元元のソーステーブル/テーブル : channels　
+復元元のソーステーブル/テーブル : sales　
 復元先のターゲットテーブル/データベース:　 mydb
 復元先のターゲットテーブル/スキーマ:　 sh1
-復元先のターゲットテーブル/テーブル:　 channels_new
+復元先のターゲットテーブル/テーブル:　 sales_new
 ```
-＊ 同一テーブル名は、元のテーブルおよび依存するオブジェクト一式をドロップするまで使用できない点に注意して下さい。復元後に、オブジェクトのドロップと、復元したオブジェクトのリネーム、依存オブジェクトの再作成を行うことができます。
-* 本ステップは、別名での復元操作までで完了とします。
+  ＊ 同一テーブル名は、元のテーブルおよび依存するオブジェクト一式をドロップするまで使用できない点に注意して下さい。復元後に、オブジェクトのドロップと、復元したオブジェクトのリネーム、依存オブジェクトの再作成を行うことができます。
+  * 復元後、Aginityから　復元テーブルの件数を確認（この操作はオプション）
+```
+select count(1) from sh1.sales_new;
+```
 
 # 4. ハンズオン環境の削除
 * Redshiftハンズオン環境の削除は弊社にて行います。そのままにしておいていただいて結構です。
