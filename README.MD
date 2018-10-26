@@ -484,17 +484,8 @@ WHERE
 ### 3.8.1 リストアの実行とクエリーの実行
 * 3-5.で作成したスナップショットを使って、リストアを行います。
 * ここではコマンドライン（AWSCLI）を使った方法を試してみます。
- * Aginityから、以下のコマンドを実行
-```
-select count(1) from sh1.channels;
-```
- * 件数を確認後、テーブルをトランケート
-```
-truncate table sh1.channels;
-```
- * 再度件数を確認
- * コマンドプロンプトを開き、AWSCLIを実行
-  ＊ クラスターレベルでのリストアは、別クラスターの作成の形を取ります。元のクラスターとは別の名前を指定して下さい
+* コマンドプロンプトを開き、AWSCLIを実行します。
+  ＊ クラスターレベルでのリストアは、別クラスターの作成の形を取ります。元のクラスターとは別の名前を指定して下さい。
 ```
 aws redshift describe-snapshots --cluster-identifier 作成した元のクラスター名
 aws redshift restore-from-cluster-snapshot --cluster-identifier 新しいクラスター名 --snapshot-identifier 前コマンドで確認した手動スナップショット識別子 --cluster-subnet-group-name public-subnetgroup --publicly-accessible
@@ -505,8 +496,16 @@ aws redshift restore-from-cluster-snapshot --cluster-identifier 新しいクラ�
 
 ### 3.8.2. テーブルレベルの復元
 * 元のクラスターに対して、テーブルレベルでの復元を施します。
-＊ ここではMCを使用した操作に戻ります。
- * 「クラスター」→（作成した元のクラスター）→「テーブルの復元」→「テーブルの復元」をクリック→
+ * Aginityから、以下のコマンドを実行します。
+```
+select count(1) from sh1.channels;
+```
+ * 件数を確認後、テーブルをトランケートします。
+```
+truncate table sh1.channels;
+```
+ * 再度件数を確認します。
+ * MCから「クラスター」→（作成した元のクラスター）→「テーブルの復元」→「テーブルの復元」をクリック→
  * 以下の通り入力
 ```
 時間の範囲 :　過去一週間
