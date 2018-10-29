@@ -531,10 +531,11 @@ select count(1) from sh1.sales_new;
 # Amazon Aurora PostgreSQL ハンズオン - Day1
 
 # 4. 環境構築準備
-* Redshiftの項で作成したVPCを使用するため不要です。
+* 本ハンズオンでは不要です。
+* コンソール右上で「東京」リージョンが選択されていることだけ、再度ご確認下さい。
 
 # 5. ハンズオン
-* Amazon Redshiftハンズオンの1-2. CloudFormationによるハンズオン環境の構築で作成したスタックの一部を利用しAurora PostgreSQLクラスターの作成から基本的な操作を体験していただきます。
+* Aurora PostgreSQLクラスターの作成および基本的な操作を体験していただきます。
 
 ## 5-1. Aurora PostgreSQLクラスターの作成
 * **特に入力・選択指示のない入力・選択項目は、設定されている値のままとしてください**
