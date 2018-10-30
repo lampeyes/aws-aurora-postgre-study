@@ -580,7 +580,7 @@ DBインスタンス識別子 : ap96XXXXX (XXXXXは任意の文字列、3~5文�
 Virtual Priavate Cloud (VPC) : デフォルト VPC
 サブネットグループ : default
 パブリックアクセシビリティ : はい
-アベイラビリティゾーン : ap-northwest-1a
+アベイラビリティゾーン : ap-northeast-1a
 VPC セキュリティグループ : 新規の VPC セキュリティグループ を作成
 ```
 
@@ -829,7 +829,7 @@ DB インスタンス識別子 : ap96rXXXXX (XXXXXは任意の文字列、3~5文
 Virtual Private Cloud (VPC) : デフォルトVPC
 サブネットグループ : default
 パブリックアクセシビリティ : はい
-アベイラビリティーゾーン : ap-northwest-1a
+アベイラビリティーゾーン : ap-northeast-1a
 ```
 
 **データベースの設定**
