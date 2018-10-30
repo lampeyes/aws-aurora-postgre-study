@@ -578,7 +578,7 @@ DBインスタンス識別子 : ap96XXXXX (XXXXXは任意の文字列、3~5文�
 **[詳細設定] の設定**
 ```
 Virtual Priavate Cloud (VPC) : デフォルト VPC
-サブネット : default
+サブネットグループ : default
 パブリックアクセシビリティ : はい
 アベイラビリティゾーン : ap-northwest-1a
 VPC セキュリティグループ : 新規の VPC セキュリティグループ を作成
