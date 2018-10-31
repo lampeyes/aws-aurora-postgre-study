@@ -492,9 +492,14 @@ WHERE
 ### 3.8.1 リストアの実行とクエリーの実行
 * 3-5.で作成したスナップショットを使って、リストアを行います。
 * ここではコマンドライン（AWSCLI）を使った方法を試してみます。
+  * ***講師からアクセスキーとシークレットキーの情報を受け取っていない場合は、このステップはスキップし、3.8.2に進んで下さい。***
 * コマンドプロンプトを開き、AWSCLIを実行します。
-  ＊ クラスターレベルでのリストアは、別クラスターの作成の形を取ります。元のクラスターとは別の名前を指定して下さい。
-
+  * アクセスキーとシークレットキーを構成
+```
+aws configure
+```
+  * リストアを実施
+    * クラスターレベルでのリストアは、別クラスターの作成の形を取りますので、元のクラスターとは別の名前を指定して下さい。
 ```
 aws redshift describe-snapshots --cluster-identifier 作成した元のクラスター名
 aws redshift restore-from-cluster-snapshot --cluster-identifier 新しいクラスター名 --snapshot-identifier 前コマンドで確認した手動スナップショット識別子 --cluster-subnet-group-name public-subnetgroup --publicly-accessible
@@ -510,7 +515,6 @@ aws redshift restore-from-cluster-snapshot --cluster-identifier 新しいクラ�
 
 ```
 select count(1) from sh1.sales;
-
 ```
  * 件数を確認後、テーブルをトランケート
 
