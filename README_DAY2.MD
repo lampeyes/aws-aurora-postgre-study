@@ -47,8 +47,7 @@ Password  : （上記で入力したパスワード）
 ```
 
 ### 2-2-2 接続テスト
-* 入力した接続情報に基づいて、実際にRedshiftクラスターに接続します。
-* 接続したら、Aginityからawsuser.mydbスキーマをクリックし、pg_catarogデータベースをざっと外観してみて下さい。
+* 入力した接続情報に基づいて、Redshiftクラスターに接続します。
 
 # 3. ハンズオン
 * ここでは、Redshiftチューニングやトラブルシューティングについてハンズオンを行っていきます。
@@ -58,27 +57,81 @@ Password  : （上記で入力したパスワード）
 * 「ワークロード管理」→「WLM」から、当該クラスター用のWLM設定を作成します。
 
 ### 3-1.1. WLM関連ビューの作成
+* WLM_QUEUE_STATE_VW（キュー状態を確認するためのビュー）を作成します。
+```
+create view WLM_QUEUE_STATE_VW as
+select (config.service_class-5) as queue
+, trim (class.condition) as description
+, config.num_query_tasks as slots
+, config.query_working_mem as mem
+, config.max_execution_time as max_time
+, config.user_group_wild_card as "user_*"
+, config.query_group_wild_card as "query_*"
+, state.num_queued_queries queued
+, state.num_executing_queries executing
+, state.num_executed_queries executed
+from
+STV_WLM_CLASSIFICATION_CONFIG class,
+STV_WLM_SERVICE_CLASS_CONFIG config,
+STV_WLM_SERVICE_CLASS_STATE state
+where
+class.action_service_class = config.service_class 
+and class.action_service_class = state.service_class 
+and config.service_class > 4
+order by config.service_class;
+```
+* WLM_QUERY_STATE_VW（クエリー状態を確認するためのビュー）を作成します。
+```
+create view WLM_QUERY_STATE_VW as
+select query, (service_class-5) as queue, slot_count, trim(wlm_start_time) as start_time, trim(state) as state, trim(queue_time) as queue_time, trim(exec_time) as exec_time
+from stv_wlm_query_state;
+```
+* 以下を実行してそれぞれのビューの内容を確認します。
+```
+select * from wlm_queue_state_vw;
+select * from wlm_query_state_vw;
+```
 
 ### 3-1.2. WLMキューの作成と設定
+* WLMキューを作成します。
+　　* パラメーターグループ→クラスターパラメーターグループの作成
+```
+パラメーターグループファミリー ... デフォルト
+パラメーターグループ名 ... 任意
+説明 ... 任意
+```
+　　* ワークロード管理→パラメーターグループ→先程作成したパラメーターグループを選択→キューの追加
+```
+クエリーキュー ... メモリ割り当て70%、同時実行数（スロット）12、ユーザーグループ=queryusers
+バッチキュー ... メモリ割り当て20%、同時実行数（スロット）2、ユーザーグループ=batchusers
+デフォルトキュー ... メモリ割り当て残り全て、同時実行数（スロット）1
+```
+  * クラスター→当該クラスターのチェックボックスをチェック→クラスターボタン→変更→先程作成したパラメーターグループ
+  * *** 再起動がかかりますので、クラスター画面がどう変わるかを確認しつつ、暫くお待ち下さい。 ***
+  
+### 3-1-3. クエリーのテスト
+* TBD
 
-### 3-1.3. QMRルールの作成と設定
-
-
-## 3-2. クエリーの実行
-* SQLを実行し、sh1スキーマに投入したデータを確認します。
-
-### 3-2-1. TBD
+### 3-1.4. QMRルールの作成と設定
+* QMRルールを作成します。
+  * ワークロード管理→パラメーターグループ→先程作成したパラメーターグループを選択→編集
+  * クエリーキューから「テンプレートからルールを追加」
+  * 「クエリーが多くの行を返す」をチェックし、追加ボタンをクリック
+  * ルールに名前を付け、アクションを「ホップ」に変更
+  * 保存をクリック
+* これで、クエリーキューで長大なクエリーが流れた際、自動的にバッチキューに流れるようになります。
 
 ### 3-3. 圧縮エンコーディング実習
-* TBD
+* 圧縮エンコーディングが適切に設定されているかどうかを確認します。
+  * 以下を実行
+```
+analyze compression sh1.sales;
+```
 
 ### 3-4. ソートキー実習
 * TBD
 
 ### 3-5. 分散キー実習
-* TBD
-
-### 3-6. トラシュー実習
 * TBD
 
 # 4. ハンズオン環境の削除
