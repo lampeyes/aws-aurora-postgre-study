@@ -383,7 +383,7 @@ Password  : （上記で入力したパスワード）
   * SQL文実行後、Performance Insightsのデータベースのロードペインを確認
     * Top Load Item Table上部のスライス →　「待機」、下部のスライス → 「SQL」を選択し、時間軸から 5 分を選択 →
     * 数秒程度のSQL文が見つかるはずです。グラフが小さい場合は、拡大したい範囲をマウスで選択することで拡大できます。
-    * SQL文横の▶︎アイコンをクリックしてドリルダウンするとSQL文が現れるはずです。
+    * SQL文横の<font color="Gray">▶︎アイコン</font>をクリックしてドリルダウンするとSQL文が現れるはずです。
     ![Performance Insights](https://github.com/lampeyes/aws-aurora-postgre-study/blob/master/handson_day2_aurora_postgresql_001.png "遅延分析及びチューニング　その１")
 
 
