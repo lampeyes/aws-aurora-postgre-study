@@ -25,9 +25,11 @@
   * スナップショットを選択
   * 以下のスナップショットを選択
 ```
-スナップショット名　：　TBD
+スナップショット名　：　for-hanson-1121
 ```
-* 完了までしばらく待ちます。
+  * クラスター→該当クラスターをクリック→ステータスを開き、状況を確認
+
+* リストアの開始には数分かかりますが、開始した後は読み書き可能な状態となります（ストリーミングリストア）。今回は開始を待たず、講義に移ります。
 
 # 2. 接続確認
 
@@ -92,7 +94,7 @@ select * from wlm_queue_state_vw;
 select * from wlm_query_state_vw;
 ```
 
-### 3-1.2. WLMキューの作成と設定
+### 3-1.2. WLMキューの作成とクラスターへの紐付け
 * WLMキューを作成します。
 　　* パラメーターグループ→クラスターパラメーターグループの作成
 ```
@@ -102,15 +104,109 @@ select * from wlm_query_state_vw;
 ```
 　　* ワークロード管理→パラメーターグループ→先程作成したパラメーターグループを選択→キューの追加
 ```
-クエリーキュー ... メモリ割り当て70%、同時実行数（スロット）12、ユーザーグループ=queryusers
-バッチキュー ... メモリ割り当て20%、同時実行数（スロット）2、ユーザーグループ=batchusers
+クエリーキュー ... メモリ割り当て50%、同時実行数（スロット）10、ユーザーグループ=queryusers、クエリーグループ=adhocqueries
+バッチキュー ... メモリ割り当て40%、同時実行数（スロット）2、ユーザーグループ=batchusers、クエリーグループ=batches
 デフォルトキュー ... メモリ割り当て残り全て、同時実行数（スロット）1
 ```
   * クラスター→当該クラスターのチェックボックスをチェック→クラスターボタン→変更→先程作成したパラメーターグループ
   * ***再起動がかかりますので、クラスター画面がどう変わるかを確認しつつ、暫くお待ち下さい。***
   
-### 3-1-3. クエリーのテスト
-* TBD
+### 3-1-3. WLMの動作を確認
+* WLMキューおよびスロットの動作を確認します。
+  * キューの状態確認
+```
+select * from wlm_queue_state_vw;
+```
+  * 結果セットキャッシュを無効化し、実行時間をクエリーごとに正確に測れるようにする
+```
+set enable_result_cache_for_session=off;
+show enable_result_cache_for_session;
+```
+  * デフォルト状態でクエリーを実行
+```
+SELECT
+ prod_id,
+ count(1) as deal_conut,
+ avg(quantity_sold) as average_sold_num,
+ sum(quantity_sold*amount_sold) as total_sales
+FROM 
+ sh1.sales
+GROUP BY
+ prod_id
+ORDER BY
+ total_sales DESC
+limit 10
+;
+select * from wlm_queue_state_vw;
+select * from wlm_query_state_vw;
+```
+  * クエリーグループを指定してクエリーを実行
+```
+set query_group to adhocqueries;
+
+SELECT
+ prod_id,
+ count(1) as deal_conut,
+ avg(quantity_sold) as average_sold_num,
+ sum(quantity_sold*amount_sold) as total_sales
+FROM 
+ sh1.sales
+GROUP BY
+ prod_id
+ORDER BY
+ total_sales DESC
+limit 10
+;
+select * from wlm_queue_state_vw;
+select * from wlm_query_state_vw;
+```
+  * スロットを集約してクエリーを実行
+```
+set wlm_query_slot_count to 5;
+
+SELECT
+ prod_id,
+ count(1) as deal_conut,
+ avg(quantity_sold) as average_sold_num,
+ sum(quantity_sold*amount_sold) as total_sales
+FROM 
+ sh1.sales
+GROUP BY
+ prod_id
+ORDER BY
+ total_sales DESC
+limit 10
+;
+select * from wlm_queue_state_vw;
+select * from wlm_query_state_vw;
+```
+  * エラーパターン
+```
+set wlm_query_slot_count to 50;
+
+SELECT
+ prod_id,
+ count(1) as deal_conut,
+ avg(quantity_sold) as average_sold_num,
+ sum(quantity_sold*amount_sold) as total_sales
+FROM 
+ sh1.sales
+GROUP BY
+ prod_id
+ORDER BY
+ total_sales DESC
+limit 10
+;
+select * from wlm_queue_state_vw;
+select * from wlm_query_state_vw;
+```
+
+  * セッション設定をリセット
+```
+reset wlm_query_slot_count;
+reset query_group;
+reset enable_result_cache_for_session;
+```
 
 ### 3-1-4. QMRルールの作成と設定
 * QMRルールを作成します。
