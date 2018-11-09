@@ -358,10 +358,10 @@ analyze compression sh1.sales;
 # 5. ハンズオン
 * Aurora PostgreSQLクラスターを利用した運用監視、チューニングなどのトラブルシューティングを体験していだだきます。
 
-## 5-1. Auto Scaling
+## 5-1. Auto Scaling （オプション）
 * レプリカに一定の負荷をかけScale out / Scale inを体験していただきます。(CloudWatch Dashboardの作成及び、イベントサブスクリプションe-mailの設定含む)
 
-### 5-1-1. Auto Scalingの設定
+### 5-1-1. Auto Scalingの設定 （オプション）
   * 「サービス」→「サイドバー」→「クラスター」→「クラスター」ペイン → 「DBクラスター識別子」列の ap96-clusterのリンク → 「Auro Scalingポリシー」ペイン →　「追加」ボタン
   * → 「Auto Scalingポリシーの追加」画面 → 「ポリシーの詳細」ペイン
 
@@ -386,7 +386,7 @@ analyze compression sh1.sales;
 
   * 「ポリシーの追加」ボタンをクリック
 
-### 5-1-2. イベントサブスクリプションの設定（イベントサブスクリプションを設定を追加するかは未定）
+### 5-1-2. イベントサブスクリプションの設定 （オプション）
   * 「サイドバー」→ 「イベントサブスクリプション」→ 「イベントサブスクリプションの作成」ボタン →「イベントサブスクリプションの作成」画面
 
   * 「詳細」ペイン
@@ -411,7 +411,7 @@ analyze compression sh1.sales;
 
   * 「作成」ボタンをクリック
 
-### 5-1-3. CloudWatch Dashboardの設定
+### 5-1-3. CloudWatch Dashboardの設定 （オプション）
   * 「サービス」→「サイドバー」→「ダッシュボード」→「ダッシュボード」ペイン → 「ダッシュボードの作成」ボタン
 
   * 「新しいダッシュボードの作成」ダイアログ
@@ -445,7 +445,7 @@ analyze compression sh1.sales;
 　を入力して↩︎[CR] → リストされた **ap96*** の 3 DBインスタンスのチェックボックスをクリック → 「ウィジェットの作成」ボタンをクリック → 「ダッシュボードの保存」ボタンをクリック
 
 
-### 5-1-4. Auto Scalingによるスケールアウトとスケールイン
+### 5-1-4. Auto Scalingによるスケールアウトとスケールイン （オプション）
   * DbVisualizer を 3 つ起動（無料版では、複数のSQL Commanderペインをひらけないため）
     * 2のDbVislalizerで **Replica1 Endpoint** へ接続し、残りの1つは、 **Replica2 Endpoint** へ接続し、それぞれで、SQL Commander ペインを開く
 
@@ -462,26 +462,26 @@ analyze compression sh1.sales;
         ```
         * 入力後　→ 「メニュー」→「SQL Commander」→「Execute Buffer」を選択して実行
 
-### 5-1-5. CloudWatch Dashboardでのモニタリング
+### 5-1-5. CloudWatch Dashboardでのモニタリング （オプション）
   * レプリカ1のCPUUtilizatonが 100% 、レプリカ2のCPUUtilizatonが 50% 程度になりしばらくすると、Auto Scalingにより、レプリカが１インスタンス自動作成
     * インスタンスが作成されると、イベントサブスクリプションで登録した e-mailへDBインスタンスが作成されたことが通知される
 
 * ** ここで座学に戻ります **
 * **レプリカが追加されたことを通知するメールが届いたら状況を確認するためハンズオンを再開します**
 
-### 5-1-6. Auto Scalingの確認
+### 5-1-6. Auto Scalingの確認 （オプション）
   * 「サービス」→「RDS」→「クラスター」→「クラスター」ペイン → 「DBクラスター識別子」列の **ap96-cluster** のリンク → 「DBクラスターメンバー」ペイン
     * 新規インスタンスが作成されているとを確認してください。作成されたDBインスタンス名のリンクをクリック →
     * 「詳細」ペインの「フェイルオーバー優先度」が **15** （最も低い)となっで作成されていることなどを確認
 
-#### 5-1-6-1. DbVisualizer で実行中の負荷かけスクリプトの停止
+#### 5-1-6-1. DbVisualizer で実行中の負荷かけスクリプトの停止 （オプション）
   * 「DbVisualizer」→ 「メニュー」→「SQL Commander」→「Stop」を洗濯してスクリプトを停止させる
   * 同様の手順で残る 2つの負荷かけスクリプトを停止
 
 * ** ここで座学に戻ります **
 
 
-## 5-2. フェイルオーバー （Day1の内容に加え、イベントサブスクリプションの動作確認も行います)
+## 5-2. フェイルオーバー  （オプション）
 * フェイルオーバーの優先度の確認後、フェイルオーバーさせ、フェイルオーバー完了までの時間やフェイルオーバー先の制御を体験していただきます。
   * **フェイルオーバーの優先度は以下のように設定済み**
   |DBインスタンス識別子|フェイルオーバー優先度|プライマリーインスタンス?|
@@ -494,7 +494,7 @@ analyze compression sh1.sales;
 * **ハンズオンPart.1はここで終了です。早めに終了した方は休憩していただいて結構です。**
 
 
-### 5-2-1. イベントサブスクリプションの設定
+### 5-2-1. イベントサブスクリプションの設定 （オプション）
 * イベントサブスクリプションを設定しフェイルオーバー発生の通知をメールで受け取れるようにします。
   * 「サービス」→「RDS」→「イベントサブスクリプション」→「イベントサブスクリプションの作成」ボタンをクリック
   * 「イベントサブスクリプションの作成」画面にて以下を設定
@@ -527,7 +527,7 @@ analyze compression sh1.sales;
           * 「サブスクリクション」画面のフィルターボックスで **PendingConfirmation** と入力するとPending中のConfirmation一覧を確認することができます。
 
 
-### 5-2-2. 手動フェイルオーバー
+### 5-2-2. 手動フェイルオーバー （オプション）
 * 手動フェイルオーバーを行い、フェイルオーバー優先度:1の **ap96-XXX-1d** インスタンスがプライマリーインスタンスへ昇格することを確認してください。
   * 「詳細」ペインの「フェイルオーバー優先順位」を参照している画面上部の「インスタンス操作」メニュー → 「フェイルオーバー」→ 「Failover DB Cluster」画面 → 「フェイルオーバー」ボタンをクリック
   * 「サイドバー」→「クラスター」→「DBクラスター識別子」列下のDBクラスター名のハイパーリンク → 「DB クラスターメンバー」ペイン → 「更新」ボタン
@@ -650,17 +650,53 @@ analyze compression sh1.sales;
 
   * 1つめのDbVisualizerで以下のSQL文を実行
   ```
-  update t1 set description = 'hoge' where id = 1;
+  update t1 set description = 'hoge' where ref_no = 1;
   ```
 
   * 2つめのDbVisualizerで以下のSQL文を実行（こちらのSQL文はトランザクションのcommit/rollbackを待機することになります）
   ```  
-  update t1 set description = 'hoge' where id = 1;
+  update t1 set description = 'hoge' where ref_no = 1;
   ```
 
-  * Performance InsightsのTop Load Item Tableの上部スライスは「待機」で、下部のスライスは「SQL」にすることで、2つめのupdate文がロックの解放待ちになっていることが確認できるはずです。
+* Performance InsightsのTop Load Item Tableの上部スライスは「待機」を選択、下部のスライスは「SQL」を選択することで、2つめのupdate文がロックの解放待ちになっていることが確認できるはずです。
   * Performance Insightsを活用するには待機イベントの考え方を理解することが重要です。
 
+  * 以下のSQL文を、1つめのDbVisualizerのSQL Commanderから実行してください。
+  ```
+  SELECT
+    clock_timestamp() AS "CURRENT_TIMESTAMP"
+    , pg_class.relname
+    , pg_locks.locktype
+    , pg_locks.database
+    , pg_locks.relation
+    , pg_locks.page
+    , pg_locks.tuple
+    , pg_locks.virtualtransaction
+    , pg_locks.pid
+    , pg_locks.mode
+    , pg_locks.granted
+  FROM
+    pg_locks
+    INNER JOIN pg_class
+    ON
+      pg_locks.relation = pg_class.oid
+  WHERE
+    relname !~ '^pg_'
+    AND  relname <> 'active_locks'
+  ;
+  ```
+
+  * 以下のサンプルのように、ロックのタイプとロックしているオブジェクトを確認できます。
+  ```
+    CURRENT_TIMESTAMP       | relname | locktype | database | relation | page | tuple | virtualtransaction |  pid  |       mode       | granted
+  -------------------------------+---------+----------+----------+----------+------+-------+--------------------+-------+------------------+---------
+  2018-11-09 06:19:50.395239+00 | ix_t1   | relation |    16394 |    24588 |      |       | 7/334              | 27126 | RowExclusiveLock | t
+  2018-11-09 06:19:50.395254+00 | t1      | relation |    16394 |    16401 |      |       | 7/334              | 27126 | RowExclusiveLock | t
+  2018-11-09 06:19:50.395256+00 | ix_t1   | relation |    16394 |    24588 |      |       | 6/575              | 27722 | RowExclusiveLock | t
+  2018-11-09 06:19:50.395258+00 | t1      | relation |    16394 |    16401 |      |       | 6/575              | 27722 | RowExclusiveLock | t
+  2018-11-09 06:19:50.39526+00  | t1      | tuple    |    16394 |    16401 |    0 |    77 | 7/334              | 27126 | ExclusiveLock    | t
+  (5 rows)
+  ```
 
 ### 5-3-3. 遅延分析及びチューニング　その３
   * **TBD さらにオプションのチューニング例を追記するかもしれない。**
