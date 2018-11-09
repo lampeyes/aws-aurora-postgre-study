@@ -688,8 +688,8 @@ analyze compression sh1.sales;
 
   * 以下のサンプルのように、ロックのタイプとロックしているオブジェクトを確認できます。
   ```
-    CURRENT_TIMESTAMP       | relname | locktype | database | relation | page | tuple | virtualtransaction |  pid  |       mode       | granted
-  -------------------------------+---------+----------+----------+----------+------+-------+--------------------+-------+------------------+---------
+        CURRENT_TIMESTAMP       | relname | locktype | database | relation | page | tuple | virtualtransaction |  pid  |       mode        | granted
+  ------------------------------+---------+----------+----------+----------+------+-------+--------------------+-------+------------------+---------
   2018-11-09 06:19:50.395239+00 | ix_t1   | relation |    16394 |    24588 |      |       | 7/334              | 27126 | RowExclusiveLock | t
   2018-11-09 06:19:50.395254+00 | t1      | relation |    16394 |    16401 |      |       | 7/334              | 27126 | RowExclusiveLock | t
   2018-11-09 06:19:50.395256+00 | ix_t1   | relation |    16394 |    24588 |      |       | 6/575              | 27722 | RowExclusiveLock | t
