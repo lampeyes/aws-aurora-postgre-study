@@ -797,8 +797,8 @@ analyze compression sh1.sales;
 
   * Performance Insights及び、ロックされているオブジェクトの状態を確認後、以下の手順でロールバックします。
     * 1つ目のDbVisualizerにて → 「メニュー」→「SQL Commander」→ 「Transaction」→　サブメニュー「Rollback」
-    * 2つ目のDbSisualizerに、**"Commit"/"Rollback"/"Continue with Uncommited"を問うダイアログ** が表示されたます。(表示されない場合は、1つ目のDbVisualizerと同じ操作を行いRollbackしてください)
-      * 「**Continue with Uncommited**」ボタンをクリックしてください。
+    * 2つ目のDbSisualizerに、**"Commit"/"Rollback"/"Continue with Uncommited"を問うダイアログ** が表示されます。(表示されない場合は、1つ目のDbVisualizerと同じ操作を行いRollbackしてください)
+      * 「**Continue with Uncommited**」ボタンをクリックしトランザクションをRollbackします。
     
 
 ### 5-3-3. 遅延分析及びチューニング　その３
