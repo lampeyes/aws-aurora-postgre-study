@@ -495,13 +495,13 @@ analyze compression sh1.sales;
   * **「Ping Server」ボタンをクリックし接続確認**
   * 上記を設定したタブを閉じる
 
-### 4-1-3 **レプリカ2のインスタンスエンドポイント向け接続設定**
+### 4-1-4 **レプリカ2のインスタンスエンドポイント向け接続設定**
 
   * 4-1-1 で作成した **クラスターエンドポイント向け接続設定** を選択し右クリック → ポップアップメニュ「Duplicate Database Connection」
     * 以下項目のみ設定しその他内容は、4-1-1 の設定と同じ
 
   ```
-  Name    　　　　　　　　　: Replica1 Endpoint
+  Name    　　　　　　　　　: Replica2 Endpoint
   Database Server        : 事前作成されているap96-clusterのレプリカ2のDBインスタンスエンドポイント
   ```
   * **「Ping Server」ボタンをクリックし接続確認**
