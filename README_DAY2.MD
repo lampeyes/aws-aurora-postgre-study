@@ -865,44 +865,43 @@ analyze compression sh1.sales;
       * **Performance InsightsのグラフからCPU利用率100%のセッションが 1 つあることを確認**
 
     * 2つ目の DvVisualizer で以下のSQL文を何度か実行してください。(1 行ヒットするまで実行して見てください) **Schema は public** になっていることを確認してください。
-   
+    ```
+    SELECT
+      pid
+      , now() - query_start AS "elapsed_time"
+      , usename
+      , datname
+      , wait_event_type
+      , wait_event
+      , state
+      , query
+   FROM
+     pg_stat_activity
+   WHERE
+      now() - query_start > '10 seconds'::interval
+      AND  state = 'active'
+   ORDER BY
+     elapsed_time DESC;
    ```
-   SELECT
-     pid
-     , now() - query_start AS "elapsed_time"
-     , usename
-     , datname
-     , wait_event_type
-     , wait_event
-     , state
-     , query
-  FROM
-    pg_stat_activity
-  WHERE
-     now() - query_start > '10 seconds'::interval
-     AND  state = 'active'
-  ORDER BY
-    elapsed_time DESC;
-  ```
     
-  * このクエリーでは実行時間が10秒以上経過したSQL文を取得するようにしています。該当クエリーが長時間実行されているいわゆるかけ逃げクエリーであれば、セッションをキャンセルすることも可能です。
-  * 前述のクエリーを実行したDbVisualizerのSQL Commanderから以下のSQL文を実行してください。
-  ```
-  SELECT pg_cancel_backend( **前述のクエリーで得られたpidの値** );
-  ```
+   * このクエリーでは実行時間が10秒以上経過したSQL文を取得するようにしています。該当クエリーが長時間実行されているいわゆるかけ逃げクエリーであれば、セッションをキャンセルすることも可能です。
+   * 前述のクエリーを実行したDbVisualizerのSQL Commanderから以下のSQL文を実行してください。
+   ```
+   SELECT pg_cancel_backend( **前述のクエリーで得られたpidの値** );
+   ```
 
-  * 以下の結果が返されます。
-  ```
-  pg_cancel_backend
-  -----------------
-  true
-  ```
+   * 以下の結果が返されます。
+   ```
+   pg_cancel_backend
+   -----------------
+   true
+   ```
 
-  * 無限ループするPL/pgSQLを実行しているセッションでは以下のエラーを受け取り処理がキャンセルされます。
-  ```
-  ERROR:  canceling statement due to user request
-  CONTEXT:  PL/pgSQL function inline_code_block line 2 at LOOP 
-  ```
+   * 無限ループするPL/pgSQLを実行しているセッションでは以下のエラーを受け取り処理がキャンセルされます。
+   ```
+   ERROR:  canceling statement due to user request
+   CONTEXT:  PL/pgSQL function inline_code_block line 2 at LOOP 
+   ```
 
 ## お疲れ様でした。これでハンズオンは終了です。
 ## **ハンズオン環境の削除等はこちらで行います。そのままにしておいていただいて結構です。**
