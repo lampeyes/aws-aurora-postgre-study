@@ -743,7 +743,6 @@ analyze compression sh1.sales;
       ```
       explain analyze SELECT COUNT(ref_no) FROM t1 WHERE ref_no BETWEEN 1 AND 250;
       ```
-
           * 実行計画は以下の通りです。
 
           ```
@@ -784,7 +783,6 @@ analyze compression sh1.sales;
       ORDER BY
         2 DESC;
       ```
-
           * 結果は以下の通りです。
 
           ```
@@ -802,7 +800,6 @@ analyze compression sh1.sales;
       create index ix_t1 on t1(ref_no, seq_no);
       explain analyze SELECT COUNT(ref_no) FROM t1 WHERE ref_no BETWEEN 1 AND 250;
       ```
-
           * 結果は以下の通りです。 Seq Scan から Index Only Scan に変わり、Heapへのアクセスが回避されたことで大きく改善しています。
 
           ```
@@ -862,9 +859,7 @@ analyze compression sh1.sales;
       AND  relname <> 'active_locks'
     ;
     ```
-
         * 以下のサンプルのような結果が得られます。（ロックのタイプとロックしているオブジェクトを確認できます）
-
         ```
               CURRENT_TIMESTAMP       | relname | locktype | database | relation | page | tuple | virtualtransaction |  pid  |       mode       | granted
         ------------------------------+---------+----------+----------+----------+------+-------+--------------------+-------+------------------+---------
@@ -927,13 +922,10 @@ analyze compression sh1.sales;
      elapsed_time DESC;
     ```
     * 該当クエリーが長時間実行されている、いわゆるかけ逃げクエリーである場合には、セッションをキャンセルすることも可能です。
-
     * 前述のクエリーを実行したDbVisualizerのSQL Commanderから以下のSQL文を実行してください。
-
     ```
     SELECT pg_cancel_backend( 前述のクエリーで得られたpidの値 );
     ```
-
         * 以下の結果が返されます。
 
         ```
@@ -941,9 +933,8 @@ analyze compression sh1.sales;
         -----------------
         true
         ```
-
         * 無限ループするPL/pgSQLを実行しているセッションでは以下のエラーを受け取り処理がキャンセルされます。
-        
+
         ```
         ERROR:  canceling statement due to user request
         CONTEXT:  PL/pgSQL function inline_code_block line 2 at LOOP
