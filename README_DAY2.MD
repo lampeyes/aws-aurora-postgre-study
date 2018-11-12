@@ -742,7 +742,7 @@ analyze compression sh1.sales;
   * DbVisualizerを 2つ起動して、それぞれ Cloud Endpointに接続し、メニューから「SQL Commander」を開いた状態にします。
   * DbVisualizer → 「Databases」タブ → 「Connections」ツリー → 「Cloud Endpoint」を選択、右クリック → ポップアップメニュー「Connect」
   * DbVisualizer → 「メニュー」→「SQL Commander」で、SQL Commanderペインを開く
-  * DbVisualizer → 「メニュー」→「SQL Commander」→ 「Transaction」→　サブメニュー「Turn off auto commit」を選択する（2つのDbVisualizerともAuto Commitはoffにする）
+  * DbVisualizer → 「メニュー」→「SQL Commander」→ 「Transaction」→　サブメニュー「**Turn off auto commit**」を選択する（**2つのDbVisualizerともAuto Commitはoffにする。なお、SQL Commanderの中段に、Auto Commit : ON/OFF が表示されているので合わせて確認してください**）
 
   * 1つめのDbVisualizerで以下のSQL文を実行
   ```
