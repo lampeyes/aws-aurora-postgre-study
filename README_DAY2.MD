@@ -754,7 +754,6 @@ analyze compression sh1.sales;
   ```  
   update t1 set description = 'hoge' where ref_no = 1;
   ```
-  * **Auto Commit OFFの場合、"Commit"/"Rollback"/"Continue with Uncommited"を問うダイアログが表示されます。 "Continue with Uncommited"ボタンをクリックしてください。**
 
 * Performance InsightsのTop Load Item Tableの上部スライスは「待機」を選択、下部のスライスは「SQL」を選択することで、2つめのupdate文がロックの解放待ちになっていることが確認できるはずです。
   * Performance Insightsを活用するには待機イベントの考え方を理解することが重要です。
@@ -795,6 +794,12 @@ analyze compression sh1.sales;
   2018-11-09 06:19:50.39526+00  | t1      | tuple    |    16394 |    16401 |    0 |    77 | 7/334              | 27126 | ExclusiveLock    | t
   (5 rows)
   ```
+
+  * Performance Insights及び、ロックされているオブジェクトの状態を確認後、以下の手順でロールバックします。
+    * 1つ目のDbVisualizerにて → 「メニュー」→「SQL Commander」→ 「Transaction」→　サブメニュー「Rollback」
+    * 2つ目のDbSisualizerに、**"Commit"/"Rollback"/"Continue with Uncommited"を問うダイアログ** が表示されたます。(表示されない場合は、1つ目のDbVisualizerと同じ操作を行いRollbackしてください)
+      * 「**Continue with Uncommited**」ボタンをクリックしてください。
+    
 
 ### 5-3-3. 遅延分析及びチューニング　その３
   * **TBD さらにオプションのチューニング例を追記するかもしれない。**
