@@ -29,7 +29,15 @@
 ```
   * クラスター→該当クラスターをクリック→ステータスを開き、状況を確認
 
-* リストアの開始には数分かかりますが、開始した後は読み書き可能な状態となります（ストリーミングリストア）。今回は開始を待たず、講義に移ります。
+* リストアの開始には数分かかりますが、開始した後は読み書き可能な状態となります（ストリーミングリストア）。今回は開始を待たず次に進みます。
+
+## 1-4. Redshiftへのネットワーク接続許可設定
+* デフォルトの状態では、Redshiftのポート（5439/tcp）への接続は塞がれていますので、以下の操作で許可します。
+ * 「クラスター」→当該クラスターをクリック→「VPCセキュリティグループ」→「default」を選択
+ * EC2の画面に遷移する
+ * 当該セキュリティグループのチェックボックスをチェックし、下部ペインの「インバウンド」タブ→「編集」をクリック
+ * 「ルールの追加」をクリックし、「タイプ」のドロップダウンリストからRedshift（5439/tcp）を選択
+ * 「ソース」のドロップダウンリストから「マイIP」を選択、保存
 
 # 2. 接続確認
 
@@ -38,7 +46,6 @@
 * PC上にインストールされている、Aginity Workbench for Redshift（以下Aginity）を起動します。
 * 接続情報を以下の通り入力します。
 * Redshiftクラスターエンドポイントはコンソールから確認し、コピペして下さい。
-* 接続元は特に制限していません。
 
 ```
 Name      : （任意）
@@ -60,9 +67,13 @@ Password  : （上記で入力したパスワード）
 ## 3-1. WLM実習
 * 「ワークロード管理」→「WLM」から、当該クラスター用のWLM設定を作成します。
 
-### 3-1.1. WLM関連ビューの作成
+### 3-1.1. WLM関連ビューの作成（オプション）
 * WLM_QUEUE_STATE_VW（キュー状態を確認するためのビュー）を作成します。
+  * 今回は作成済みなので、以下のSQLの実行はオプションです。
 ```
+drop view WLM_QUEUE_STATE_VW
+;
+
 create view WLM_QUEUE_STATE_VW as
 select (config.service_class-5) as queue
 , trim (class.condition) as description
@@ -85,7 +96,12 @@ and config.service_class > 4
 order by config.service_class;
 ```
 * WLM_QUERY_STATE_VW（クエリー状態を確認するためのビュー）を作成します。
+  * 今回は作成済みなので、以下のSQLの実行はオプションです。
+  
 ```
+drop view WLM_QUERY_STATE_VW
+;
+
 create view WLM_QUERY_STATE_VW as
 select query, (service_class-5) as queue, slot_count, trim(wlm_start_time) as start_time, trim(state) as state, trim(queue_time) as queue_time, trim(exec_time) as exec_time
 from stv_wlm_query_state;
