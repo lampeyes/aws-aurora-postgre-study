@@ -160,9 +160,11 @@ limit 10
 select * from wlm_queue_state_vw;
 select * from wlm_query_state_vw;
 ```
+  * 指定したキューで実行されていることを確認します。
+
   * スロットを集約してクエリーを実行
 ```
-set wlm_query_slot_count to 5;
+set wlm_query_slot_count to 10;
 
 SELECT
  prod_id,
@@ -180,9 +182,36 @@ limit 10
 select * from wlm_queue_state_vw;
 select * from wlm_query_state_vw;
 ```
-  * エラーパターン
+  * Executingの値が変わっていることを確認します。これは、最初のクエリーが10スロット全てを占有して実行していることを示しています。
+
+  * キューの動きをさらに深掘りします。
+    * SQLセッションを三つ開く（**SQLタブ1、SQLタブ2、SQLタブ3**）を開く
+    * **SQLタブ1**でロングランニングクエリーを実行
+    * これが実行されている間に、**SQLタブ2**で先程と同じスロット集約クエリーを実行
+    * **SQLタブ3**でビューを確認
+
+**SQLタブ1（ロングランニングクエリー）**
 ```
-set wlm_query_slot_count to 50;
+/* 結果セットキャッシュを無効化 */
+set enable_result_cache_for_session=off;
+show enable_result_cache_for_session;
+
+/* クエリーグループを指定 */
+set query_group to adhocqueries;
+
+/* ロングランニングクエリーを実行 */
+select * from sh1.sales;
+```
+
+**SQLタブ2（本クエリー）**
+```
+/* 結果セットキャッシュを無効化 */
+set enable_result_cache_for_session=off;
+show enable_result_cache_for_session;
+
+/* 前ステップと同じクエリーを実行 */
+set query_group to adhocqueries;
+set wlm_query_slot_count to 10;
 
 SELECT
  prod_id,
@@ -197,9 +226,18 @@ ORDER BY
  total_sales DESC
 limit 10
 ;
+```
+**SQLタブ3（ビューの確認）***
+```
+/* ビューの状態を確認 */
 select * from wlm_queue_state_vw;
 select * from wlm_query_state_vw;
 ```
+  * 何が起きましたか？
+　　　　  * adhocqueriesのスロット数は10です。
+    * このうち、SQLタブ1で通常の1スロットを使ってロングランニングクエリーが実行されているため、残存スロットは9です。
+    * この状態でSQLタブ2で 'set wlm_query_slot_count to 10' を使って10個のスロットを確保しようとしました。スロットが確保できるようになるまで、このSQLはキュー待ちの状態となります。
+    * スロット確保を多用するとこうした状態が生まれやすくなりますので注意して下さい。
 
   * セッション設定をリセット
 ```
