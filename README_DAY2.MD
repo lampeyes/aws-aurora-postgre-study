@@ -637,6 +637,7 @@ analyze compression sh1.sales;
   * 「サービス」→「RDS」→「イベントサブスクリプション」→「イベントサブスクリプションの作成」ボタンをクリック
   * 「イベントサブスクリプションの作成」画面にて以下を設定
    * 詳細ペイン
+    
     ```
     名前（サブスクリプションの名前） : failover
     ```
@@ -656,7 +657,9 @@ analyze compression sh1.sales;
     含まれるイベントカテゴリー : 「特定のイベントカテゴリを選択します」ラジオボタンを選択
     特定のイベント　　　　　　 : ドロップダウンメニューから「 **フェイルオーバー** 」を選択
     ```
+    
     * 「作成」ボタンをクリック
+
 
     * 「ターゲットペイン」の「受信者」で設定したメールアドレスへ、Confirmationメールが届きますので、メールのリンクをクリックしてConfirmationします。
      * なお、Confirmationできない誤ったメールアドレスを設定した場合には、Pending Confirmationとなり3日後に自動削除されます。
@@ -691,9 +694,9 @@ analyze compression sh1.sales;
 
   * **以下のSQL文の性能要件は、TAT 1秒以内です**
     * 以下の SQL文を SQL Commanderへコピーペーストし、「メニュー」→「SQL Commander」→「Execute」を選択しSQL文を実行
-  ```
-  SELECT COUNT(ref_no) FROM t1 WHERE ref_no BETWEEN 1 AND 250;
-  ```
+    ```
+    SELECT COUNT(ref_no) FROM t1 WHERE ref_no BETWEEN 1 AND 250;
+    ```
   * SQL文実行後、Performance Insightsのデータベースのロードペインを確認
     * Top Load Item Table上部のスライス →　「待機」、下部のスライス → 「SQL」を選択し、時間軸から 5 分を選択 →
     * 数秒程度のSQL文が見つかるはずです。グラフが小さい場合は、拡大したい範囲をマウスで選択することで拡大できます。
@@ -702,53 +705,54 @@ analyze compression sh1.sales;
      * このSQL文の待機イベントの傾向からどのようなことが言えますか？
      * バッファキャッシュに乗っている状態であれば、2秒程度で、待機イベントはCPUバウンドな傾向を示しているはずです。
       * バッファキャッシュでヒットしなかった状況は考慮するしなくて構いません。バッファキャッシュでヒットする前提です。
+      
      * チューニング方法を検討するため、実行計画(Actual)を確認する必要がありますが、どのような方法で確認できますか？
      * 実行計画(Actual)と、定義(DbVisualizerで列定義や索引）を確認できます。  
      * 実行計画(Actual)は以下のように取得できます。  
-      ```
-      explain analyze SELECT COUNT(ref_no) FROM t1 WHERE ref_no BETWEEN 1 AND 250;
-      ```
+     ```
+     explain analyze SELECT COUNT(ref_no) FROM t1 WHERE ref_no BETWEEN 1 AND 250;
+     ```
 
      * 実行計画は以下の通り
-      ```
-      Aggregate  (cost=289382.49..289382.50 rows=1 width=8) (actual time=2160.475..2160.475 rows=1 loops=1)
-      ->  Seq Scan on t1  (cost=0.00..283334.00 rows=2419397 width=5) (actual time=0.093..1994.440 rows=2500000 loops=1)
-        Filter: ((ref_no >= '1'::numeric) AND (ref_no <= '250'::numeric))
-        Rows Removed by Filter: 7500000
-      Planning time: 0.074 ms
-      Execution time: 2160.498 ms
-      ```
+     ```
+     Aggregate  (cost=289382.49..289382.50 rows=1 width=8) (actual time=2160.475..2160.475 rows=1 loops=1)
+     ->  Seq Scan on t1  (cost=0.00..283334.00 rows=2419397 width=5) (actual time=0.093..1994.440 rows=2500000 loops=1)
+       Filter: ((ref_no >= '1'::numeric) AND (ref_no <= '250'::numeric))
+       Rows Removed by Filter: 7500000
+     Planning time: 0.074 ms
+     Execution time: 2160.498 ms
+     ```
 
      * 以下の SQL文を SQL Commanderへコピーペーストし、「メニュー」→「SQL Commander」→「Execute」を選択しSQL文を実行して、セグメントサイズを確認してみてください
-      ```
-        SELECT
-          objectname
-          ,TO_CHAR(
-            pg_relation_size(
-              objectname::regclass)/1024/1024/1024
-              , '999,999,999,999.99'
-          ) AS "GB"
-        FROM
-        (
-          SELECT
-            tablename AS objectname
-          FROM
-            pg_tables
+       ```
+       SELECT
+         objectname
+         ,TO_CHAR(
+           pg_relation_size(
+             objectname::regclass)/1024/1024/1024
+             , '999,999,999,999.99'
+         ) AS "GB"
+       FROM
+       (
+         SELECT
+           tablename AS objectname
+         FROM
+           pg_tables
           WHERE
-            schemaname = 'hoge'
-          UNION
-          SELECT
-            indexname AS objectname
-          FROM
-             pg_indexes
-          WHERE
-            schemaname = 'hoge'
-        ) AS objectlist
-        ORDER BY
-           2 DESC;
-        ```
+           schemaname = 'hoge'
+         UNION
+         SELECT
+           indexname AS objectname
+         FROM
+            pg_indexes
+         WHERE
+           schemaname = 'hoge'
+       ) AS objectlist
+       ORDER BY
+          2 DESC;
+       ```
 
-        * 結果は以下の通り
+      * 結果は以下の通り
 	
         ```
         objectname |         GB          
@@ -757,25 +761,25 @@ analyze compression sh1.sales;
         t2         |                1.00
         ```
 
-        * これらのことから、t1表のref_no列に索引が存在しないため、1GBのデータサイズ、かつ、 10,000,000行のデータを全表走査し、7,500,000行のデータを読み込んだ上で捨てていることがわかります。
-        * この例では物理読み込みはキャッシュにヒットしているため影響していないが、1GBは読み込み過ぎ、なので、適切な索引があれば、フィルターリングによるCPU処理も全表走査の読み込み量も同時に減らせる。
-        * ref_no以外に、seq_noも検索されそうなので、ref_no,seq_no列に索引を作成することで大きく改善する
-        ```
-        create index ix_t1 on t1(ref_no, seq_no);
-        ```
+       * これらのことから、t1表のref_no列に索引が存在しないため、1GBのデータサイズ、かつ、 10,000,000行のデータを全表走査し、7,500,000行のデータを読み込んだ上で捨てていることがわかります。
+       * この例では物理読み込みはキャッシュにヒットしているため影響していないが、1GBは読み込み過ぎ、なので、適切な索引があれば、フィルターリングによるCPU処理も全表走査の読み込み量も同時に減らせる。
+       * ref_no以外に、seq_noも検索されそうなので、ref_no,seq_no列に索引を作成することで大きく改善する
+       ```
+       create index ix_t1 on t1(ref_no, seq_no);
+       ```
 
-        ```
-        explain analyze SELECT COUNT(ref_no) FROM t1 WHERE ref_no BETWEEN 1 AND 250;
-        ```
+       ```
+       explain analyze SELECT COUNT(ref_no) FROM t1 WHERE ref_no BETWEEN 1 AND 250;
+       ```
 
-        ```
-        Aggregate  (cost=91736.67..91736.68 rows=1 width=8) (actual time=624.912..624.912 rows=1 loops=1)
-        ->  Index Only Scan using ix_t1 on t1  (cost=0.43..85685.98 rows=2420277 width=5) (actual time=0.034..457.772 rows=2500000 loops=1)
-            Index Cond: ((ref_no >= '1'::numeric) AND (ref_no <= '250'::numeric))
-            Heap Fetches: 0
-        Planning time: 0.110 ms
-        Execution time: 624.940 ms
-        ```
+       ```
+       Aggregate  (cost=91736.67..91736.68 rows=1 width=8) (actual time=624.912..624.912 rows=1 loops=1)
+       ->  Index Only Scan using ix_t1 on t1  (cost=0.43..85685.98 rows=2420277 width=5) (actual time=0.034..457.772 rows=2500000 loops=1)
+           Index Cond: ((ref_no >= '1'::numeric) AND (ref_no <= '250'::numeric))
+           Heap Fetches: 0
+       Planning time: 0.110 ms
+       Execution time: 624.940 ms
+       ```
 
 ### 5-3-2. 遅延分析及びチューニング　その２
   * 「サービス」→「RDS」→「パフォーマンスインサイト」→ DBインスタンス「ap96」ラジオボタンを選択　→　「データベースのロード」ペイン　を表示
