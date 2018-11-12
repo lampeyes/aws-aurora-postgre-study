@@ -584,17 +584,17 @@ analyze compression sh1.sales;
     * 2のDbVislalizerで **Replica1 Endpoint** へ接続し、残りの1つは、 **Replica2 Endpoint** へ接続し、それぞれで、SQL Commander ペインを開く
 
     * **操作例**
-      * 「Databaes」タブ → 「Connections」ツリー → 「Replia1 Endpotion」を選択し右クリック → ポップアップメニュー「Connect」
-      * 「メニュー」→「SQL Commander」→ 「Database」は **mydb** 、 「Schema」は、 **hoge** 　になっていることを確認、なっていない場合には、各ドロップダウンメニューより選択
-        * それぞれの **SQL Commander** ペインで以下を入力
-        ```
-        DO $$BEGIN
-          LOOP
-            --
-          END LOOP;
-        END$$;
-        ```
-        * 入力後　→ 「メニュー」→「SQL Commander」→「Execute Buffer」を選択して実行
+     * 「Databaes」タブ → 「Connections」ツリー → 「Replia1 Endpotion」を選択し右クリック → ポップアップメニュー「Connect」
+     * 「メニュー」→「SQL Commander」→ 「Database」は **mydb** 、 「Schema」は、 **hoge** 　になっていることを確認、なっていない場合には、各ドロップダウンメニューより選択
+      * それぞれの **SQL Commander** ペインで以下を入力
+      ```
+      DO $$BEGIN
+        LOOP
+          --
+        END LOOP;
+      END$$;
+      ```
+      * 入力後　→ 「メニュー」→「SQL Commander」→「Execute Buffer」を選択して実行
 
 ### 5-1-5. CloudWatch Dashboardでのモニタリング （オプション）
   * レプリカ1のCPUUtilizatonが 100% 、レプリカ2のCPUUtilizatonが 50% 程度になりしばらくすると、Auto Scalingにより、レプリカが１インスタンス自動作成
@@ -633,19 +633,19 @@ analyze compression sh1.sales;
 * イベントサブスクリプションを設定しフェイルオーバー発生の通知をメールで受け取れるようにします。
   * 「サービス」→「RDS」→「イベントサブスクリプション」→「イベントサブスクリプションの作成」ボタンをクリック
   * 「イベントサブスクリプションの作成」画面にて以下を設定
-    * 詳細ペイン
+   * 詳細ペイン
     ```
     名前（サブスクリプションの名前） : failover
     ```
 
-    * ターゲットペイン
+   * ターゲットペイン
     ```
     通知の送信先 : 「新しいEメールトピック」ラジオボタンを選択
     トピック名　 : failover
     受信者　　　 : Confirmation可能な実在するメールアドレス
     ```
 
-    * ソースペイン
+   * ソースペイン
     ```
     ソースタイプ : ドロップダウンメニューから「DBクラスター」を選択
     DBクラスターを含める : 「個別に選択 db クラスター」ラジオボタンを選択
@@ -656,21 +656,20 @@ analyze compression sh1.sales;
     * 「作成」ボタンをクリック
 
     * 「ターゲットペイン」の「受信者」で設定したメールアドレスへ、Confirmationメールが届きますので、メールのリンクをクリックしてConfirmationします。
-      * なお、Confirmationできない誤ったメールアドレスを設定した場合には、Pending Confirmationとなり3日後に自動削除されます。
-      * メールアドレスのConcifmation状況は以下の方法で確認できます。
-        * 「サービス」→「Simple Notification Service」→「サブスクリプション」→「サブスクリプション」画面
-          * 「サブスクリクション」画面のフィルターボックスで **PendingConfirmation** と入力するとPending中のConfirmation一覧を確認することができます。
+     * なお、Confirmationできない誤ったメールアドレスを設定した場合には、Pending Confirmationとなり3日後に自動削除されます。
+     * メールアドレスのConcifmation状況は以下の方法で確認できます。
+      * 「サービス」→「Simple Notification Service」→「サブスクリプション」→「サブスクリプション」画面
+       * 「サブスクリクション」画面のフィルターボックスで **PendingConfirmation** と入力するとPending中のConfirmation一覧を確認することができます。
 
 
 ### 5-2-2. 手動フェイルオーバー （オプション）
 * 手動フェイルオーバーを行い、フェイルオーバー優先度:1の **ap96-XXX-1d** インスタンスがプライマリーインスタンスへ昇格することを確認してください。
   * 「詳細」ペインの「フェイルオーバー優先順位」を参照している画面上部の「インスタンス操作」メニュー → 「フェイルオーバー」→ 「Failover DB Cluster」画面 → 「フェイルオーバー」ボタンをクリック
   * 「サイドバー」→「クラスター」→「DBクラスター識別子」列下のDBクラスター名のハイパーリンク → 「DB クラスターメンバー」ペイン → 「更新」ボタン
-    * レプリカ　**ap96-XXX-1d** のロールが、読み込みから書き込みへ昇格したことを確認してください。
+   * レプリカ　**ap96-XXX-1d** のロールが、読み込みから書き込みへ昇格したことを確認してください。
 
   * フェイルオーバーが発生後、イベントサブスクリクションで登録したメールアドレスへフェイルオーバーの通知が届きます。どのような内容のメールが届くのかかご確認ください。
-    * 「最近のイベント」ペインに以下のようなイベントが記録されていることも確認してみてください。
-
+   * 「最近のイベント」ペインに以下のようなイベントが記録されていることも確認してみてください。
    ```
     Completed failover to DB instance: ap96-XXX-1d
     Started cross AZ failover to DB instance: ap96-XXX-1d
@@ -697,17 +696,17 @@ analyze compression sh1.sales;
     * 数秒程度のSQL文が見つかるはずです。グラフが小さい場合は、拡大したい範囲をマウスで選択することで拡大できます。
     * SQL文横の▶︎アイコンをクリックしてドリルダウンするとSQL文が現れるはずです。
 
-      * このSQL文の待機イベントの傾向からどのようなことが言えますか？
-      * バッファキャッシュに乗っている状態であれば、2秒程度で、待機イベントはCPUバウンドな傾向を示しているはずです。
-        * バッファキャッシュでヒットしなかった状況は考慮するしなくて構いません。バッファキャッシュでヒットする前提です。
-      * チューニング方法を検討するため、実行計画(Actual)を確認する必要がありますが、どのような方法で確認できますか？
-      * 実行計画(Actual)と、定義(DbVisualizerで列定義や索引）を確認できます。  
-      * 実行計画(Actual)は以下のように取得できます。  
+     * このSQL文の待機イベントの傾向からどのようなことが言えますか？
+     * バッファキャッシュに乗っている状態であれば、2秒程度で、待機イベントはCPUバウンドな傾向を示しているはずです。
+      * バッファキャッシュでヒットしなかった状況は考慮するしなくて構いません。バッファキャッシュでヒットする前提です。
+     * チューニング方法を検討するため、実行計画(Actual)を確認する必要がありますが、どのような方法で確認できますか？
+     * 実行計画(Actual)と、定義(DbVisualizerで列定義や索引）を確認できます。  
+     * 実行計画(Actual)は以下のように取得できます。  
       ```
       explain analyze SELECT COUNT(ref_no) FROM t1 WHERE ref_no BETWEEN 1 AND 250;
       ```
 
-      * 実行計画は以下の通り
+     * 実行計画は以下の通り
       ```
       Aggregate  (cost=289382.49..289382.50 rows=1 width=8) (actual time=2160.475..2160.475 rows=1 loops=1)
       ->  Seq Scan on t1  (cost=0.00..283334.00 rows=2419397 width=5) (actual time=0.093..1994.440 rows=2500000 loops=1)
@@ -717,7 +716,7 @@ analyze compression sh1.sales;
       Execution time: 2160.498 ms
       ```
 
-      * 以下の SQL文を SQL Commanderへコピーペーストし、「メニュー」→「SQL Commander」→「Execute」を選択しSQL文を実行して、セグメントサイズを確認してみてください
+     * 以下の SQL文を SQL Commanderへコピーペーストし、「メニュー」→「SQL Commander」→「Execute」を選択しSQL文を実行して、セグメントサイズを確認してみてください
       ```
         SELECT
           objectname
@@ -834,9 +833,9 @@ analyze compression sh1.sales;
   ```
 
   * Performance Insights及び、ロックされているオブジェクトの状態を確認後、以下の手順でロールバックします。
-    * 1つ目のDbVisualizerにて → 「メニュー」→「SQL Commander」→ 「Transaction」→　サブメニュー「Rollback」
-    * 2つ目のDbSisualizerに、**"Commit"/"Rollback"/"Continue with Uncommited"を問うダイアログ** が表示されます。(表示されない場合は、1つ目のDbVisualizerと同じ操作を行いRollbackしてください)
-      * 「**Continue with Uncommited**」ボタンをクリックしトランザクションをRollbackします。
+   * 1つ目のDbVisualizerにて → 「メニュー」→「SQL Commander」→ 「Transaction」→　サブメニュー「Rollback」
+   * 2つ目のDbSisualizerに、**"Commit"/"Rollback"/"Continue with Uncommited"を問うダイアログ** が表示されます。(表示されない場合は、1つ目のDbVisualizerと同じ操作を行いRollbackしてください)
+    * 「**Continue with Uncommited**」ボタンをクリックしトランザクションをRollbackします。
     
 
 ### 5-3-3. 遅延分析及びチューニング　その３ （オプション）
@@ -857,9 +856,9 @@ analyze compression sh1.sales;
     * 確認方法は次の通り
     * 「サービス」→「RDS」→「クラスター」→「クラスターメンバー」ペイン → 「ロール」列が **書き込み** となっている「dbインスタンス」をメモ帳などにコピーしておきます。
     * マネージメントコンソール →「サービス」→「RDS」→「パフォーマンスインサイト」→ 前述の方法で確認したDBインスタンのリンク
-      * Performance Insights → 「時間軸」→「5分」→ グラフ右横の「スライス基準」メニュー → 「待機」
-      * Performance Insights →　グラフ下方のTop Load Itel Tableのスライス基準 →「SQL」
-      * **Performance InsightsのグラフからCPU利用率100%のセッションが 1 つあることを確認**
+     * Performance Insights → 「時間軸」→「5分」→ グラフ右横の「スライス基準」メニュー → 「待機」
+     * Performance Insights →　グラフ下方のTop Load Itel Tableのスライス基準 →「SQL」
+     * **Performance InsightsのグラフからCPU利用率100%のセッションが 1 つあることを確認**
 
     * 2つ目の DvVisualizer で以下のSQL文を何度か実行してください。(1 行ヒットするまで実行して見てください) **Schema は public** になっていることを確認してください。
     ```
