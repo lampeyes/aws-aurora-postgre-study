@@ -927,14 +927,13 @@ analyze compression sh1.sales;
     SELECT pg_cancel_backend( 前述のクエリーで得られたpidの値 );
     ```
         * 以下の結果が返されます。
-
         ```
         pg_cancel_backend
         -----------------
         true
         ```
-        * 無限ループするPL/pgSQLを実行しているセッションでは以下のエラーを受け取り処理がキャンセルされます。
 
+        * 無限ループするPL/pgSQLを実行しているセッションでは以下のエラーを受け取り処理がキャンセルされます。
         ```
         ERROR:  canceling statement due to user request
         CONTEXT:  PL/pgSQL function inline_code_block line 2 at LOOP
