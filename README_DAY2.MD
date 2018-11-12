@@ -926,16 +926,17 @@ analyze compression sh1.sales;
     ```
     SELECT pg_cancel_backend( 前述のクエリーで得られたpidの値 );
     ```
-      * 以下の結果が返されます。```
-      pg_cancel_backend
-      -----------------
-      true
-      ```
+      * 以下の結果が返されます。
+        ```
+        pg_cancel_backend
+        -----------------
+        true
+        ```
       * 無限ループするPL/pgSQLを実行しているセッションでは以下のエラーを受け取り処理がキャンセルされます。
-      ```
-      ERROR:  canceling statement due to user request
-      CONTEXT:  PL/pgSQL function inline_code_block line 2 at LOOP
-      ```
+        ```
+        ERROR:  canceling statement due to user request
+        CONTEXT:  PL/pgSQL function inline_code_block line 2 at LOOP
+        ```
 
 ## お疲れ様でした。これでハンズオンは終了です。
 ## **ハンズオン環境の削除等はこちらで行います。そのままにしておいていただいて結構です。**
