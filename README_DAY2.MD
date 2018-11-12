@@ -38,12 +38,14 @@
 * PC上にインストールされている、Aginity Workbench for Redshift（以下Aginity）を起動します。
 * 接続情報を以下の通り入力します。
 * Redshiftクラスターエンドポイントはコンソールから確認し、コピペして下さい。
+* 接続元は特に制限していません。
 
 ```
 Name      : （任意）
 Server    : （クラスターエンドポイントのURL。ポートを除く）
 DB Port   : 5439
 SSL Mode  : Prefer
+Database  : rsdemo
 User ID   : awsuser
 Password  : （上記で入力したパスワード）
 ```
