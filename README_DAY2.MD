@@ -926,8 +926,7 @@ analyze compression sh1.sales;
     ```
     SELECT pg_cancel_backend( 前述のクエリーで得られたpidの値 );
     ```
-      * 以下の結果が返されます。
-      ```
+      * 以下の結果が返されます。```
       pg_cancel_backend
       -----------------
       true
