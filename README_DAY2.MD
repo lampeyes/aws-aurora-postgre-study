@@ -97,7 +97,7 @@ order by config.service_class;
 ```
 * WLM_QUERY_STATE_VW（クエリー状態を確認するためのビュー）を作成します。
   * 今回は作成済みなので、以下のSQLの実行はオプションです。
-  
+
 ```
 drop view WLM_QUERY_STATE_VW
 ;
@@ -706,8 +706,9 @@ analyze compression sh1.sales;
 
 ### 5-3-1. 遅延分析及びチューニング　その１　
   * 「サービス」→「RDS」→「パフォーマンスインサイト」→ DBインスタンス「ap96」ラジオボタンを選択　→　「データベースのロード」ペイン　を表示
-  * DbVisualizer → 「Databases」タブ → 「Connections」ツリー → 「Cloud Endpoint」を選択、右クリック → ポップアップメニュー「Connect」
+  * DbVisualizer → 「Databases」タブ → 「Connections」ツリー → 「Cluster Endpoint」を選択、右クリック → ポップアップメニュー「Connect」
   * DbVisualizer → 「メニュー」→「SQL Commander」で、SQL Commanderペインを開く
+  * **注意** 「メニュー」→「SQL Commander」→ 「Database」は **mydb** 、 「Schema」は、 **hoge** 　になっていることを確認、なっていない場合には、各ドロップダウンメニューより選択
 
   * **以下のSQL文の性能要件は、TAT 1秒以内です**
     * 以下の SQL文を SQL Commanderへコピーペーストし、「メニュー」→「SQL Commander」→「Execute」を選択しSQL文を実行
@@ -799,8 +800,8 @@ analyze compression sh1.sales;
 
 ### 5-3-2. 遅延分析及びチューニング　その２
   * 「サービス」→「RDS」→「パフォーマンスインサイト」→ DBインスタンス「ap96」ラジオボタンを選択　→　「データベースのロード」ペイン　を表示
-  * DbVisualizerを 2つ起動して、それぞれ Cloud Endpointに接続し、メニューから「SQL Commander」を開いた状態にします。
-  * DbVisualizer → 「Databases」タブ → 「Connections」ツリー → 「Cloud Endpoint」を選択、右クリック → ポップアップメニュー「Connect」
+  * DbVisualizerを 2つ起動して、それぞれ Cluster Endpointに接続し、メニューから「SQL Commander」を開いた状態にします。
+  * DbVisualizer → 「Databases」タブ → 「Connections」ツリー → 「Cluster Endpoint」を選択、右クリック → ポップアップメニュー「Connect」
   * DbVisualizer → 「メニュー」→「SQL Commander」で、SQL Commanderペインを開く
   * DbVisualizer → 「メニュー」→「SQL Commander」→ 「Transaction」→　サブメニュー「**Turn off auto commit**」を選択する（**2つのDbVisualizerともAuto Commitはoffにする。なお、SQL Commanderの中段に、Auto Commit : ON/OFF が表示されているので合わせて確認してください**）
 
