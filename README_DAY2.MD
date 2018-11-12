@@ -624,7 +624,7 @@ analyze compression sh1.sales;
   |ap96|2|Primary Instance|
   |ap96-XXX-1c|2|Replica|
   |ap96-XXX-1d|1|Replica|
-  |application-autoscaling-xxx|15|Replica(Auto Scalingで追加。既に削除されている可能性もあります)|
+  |application-autoscaling-xxx|15|Replica(Auto Scalingで追加。  既に削除されている可能性もあります)|
 
 * **ハンズオンPart.1はここで終了です。早めに終了した方は休憩していただいて結構です。**
 
@@ -866,6 +866,7 @@ analyze compression sh1.sales;
       * **Performance InsightsのグラフからCPU利用率100%のセッションが 1 つあることを確認**
 
   　* 2つ目の DvVisualizer で以下のSQL文を何度か実行してください。(1 行ヒットするまで実行して見てください) **Schema は public** になっていることを確認してください。
+   
     ```
     SELECT
       pid
@@ -884,6 +885,7 @@ analyze compression sh1.sales;
     ORDER BY
       elapsed_time DESC;
     ```
+    
     * このクエリーでは実行時間が10秒以上経過したSQL文を取得するようにしています。該当クエリーが長時間実行されているいわゆるかけ逃げクエリーであれば、セッションをキャンセルすることも可能です。
     * 前述のクエリーを実行したDbVisualizerのSQL Commanderから以下のSQL文を実行してください。
     ```
@@ -898,10 +900,10 @@ analyze compression sh1.sales;
     ```
 
     * 無限ループするPL/pgSQLを実行しているセッションでは以下のエラーを受け取り処理がキャンセルされます。
-   ```
-   ERROR:  canceling statement due to user request
-   CONTEXT:  PL/pgSQL function inline_code_block line 2 at LOOP 
-   ```
+    ```
+    ERROR:  canceling statement due to user request
+    CONTEXT:  PL/pgSQL function inline_code_block line 2 at LOOP 
+    ```
 
 
 ## お疲れ様でした。これでハンズオンは終了です。
