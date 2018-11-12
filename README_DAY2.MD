@@ -486,7 +486,7 @@ analyze compression sh1.sales;
   * **便宜上、レプリカ1、レプリカ2と記載していますが、2つあるレプリカのうちどちらを1,2にしても構いません。**
 
   * 4-1-1 で作成した **クラスターエンドポイント向け接続設定** を選択し右クリック → ポップアップメニュ「Duplicate Database Connection」
-      * 以下項目のみ設定しその他内容は、4-1-1 の設定と同じです。
+    * 以下項目のみ設定しその他内容は、4-1-1 の設定と同じです。
 
   ```
   Name    　　　　　　　　　: Replica1 Endpoint
@@ -514,8 +514,7 @@ analyze compression sh1.sales;
 * レプリカに一定の負荷をかけScale out / Scale inを体験していただきます。(CloudWatch Dashboardの作成及び、イベントサブスクリプションe-mailの設定含みます)
 
 ### 5-1-1. Auto Scalingの設定 （オプション）
-  * 「サービス」→「サイドバー」→「クラスター」→「クラスター」ペイン → 「DBクラスター識別子」列の ap96-clusterのリンク → 「Auro Scalingポリシー」ペイン →　「追加」ボタン
-  * → 「Auto Scalingポリシーの追加」画面 → 「ポリシーの詳細」ペイン
+  * 「サービス」→「サイドバー」→「クラスター」→「クラスター」ペイン → 「DBクラスター識別子」列の ap96-clusterのリンク → 「Auro Scalingポリシー」ペイン →　「追加」ボタン → 「Auto Scalingポリシーの追加」画面 → 「ポリシーの詳細」ペイン
 
   ```
   ポリシー名　　　　　 : my-auto-scaling-polycy
@@ -584,6 +583,7 @@ analyze compression sh1.sales;
   * 入力後 ↩︎[CR] → リストされた **ap96** の 3 DBインスタンスのチェックボックスをクリック → 「ウィジェットの作成」ボタンをクリック
 
   * 「ウィジェットの追加」ボタン → 「ダッシュボードに追加」ダイアログ
+
 　```
 　「数値」ボタンアイコン
 　```
@@ -591,6 +591,7 @@ analyze compression sh1.sales;
 
 
   * 「メトリクスグラフの追加」ダイアログ → 「すべてのメトリクス」タブ → 「RDS」→「データベース別メトリクス」→ 「検索ボックス」
+
 　```
   FreeLocalStorage
 　```
@@ -602,20 +603,21 @@ analyze compression sh1.sales;
     * 2のDbVislalizerで **Replica1 Endpoint** へ接続し、残りの1つは、 **Replica2 Endpoint** へ接続し、それぞれで、SQL Commander ペインを開きます。
 
     * **操作例**
-     * 「Databaes」タブ → 「Connections」ツリー → 「Replia1 Endpotion」を選択し右クリック → ポップアップメニュー「Connect」
-     * 「メニュー」→「SQL Commander」→ 「Database」は **mydb** 、 「Schema」は、 **hoge** 　になっていることを確認、なっていない場合には、各ドロップダウンメニューより選択
-      * それぞれの **SQL Commander** ペインで以下を入力、
-      ```
-      DO $$BEGIN
-        LOOP
-          --
-        END LOOP;
-      END$$;
-      ```
-      * 入力後　→ 「メニュー」→「SQL Commander」→「Execute Buffer」を選択して実行します。
+      * 「Databaes」タブ → 「Connections」ツリー → 「Replia1 Endpotion」を選択し右クリック → ポップアップメニュー「Connect」
+      * 「メニュー」→「SQL Commander」→ 「Database」は **mydb** 、 「Schema」は、 **hoge** 　になっていることを確認、なっていない場合には、各ドロップダウンメニューより選択
+        * それぞれの **SQL Commander** ペインで以下を入力、
+
+        ```
+        DO $$BEGIN
+          LOOP
+            --
+          END LOOP;
+        END$$;
+        ```
+        * 入力後　→ 「メニュー」→「SQL Commander」→「Execute Buffer」を選択して実行します。
 
 ### 5-1-5. CloudWatch Dashboardでのモニタリング （オプション）
-  * レプリカ1のCPUUtilizatonが 100% 、レプリカ2のCPUUtilizatonが 50% 程度になりしばらくすると、Auto Scalingにより、レプリカが１インスタンス自動作成されます。
+  * レプリカ1の CPUUtilizaton が 100% 、レプリカ2の CPUUtilizaton が 50% 程度になりしばらくすると、Auto Scaling により、レプリカが１インスタンス自動作成されます。
     * インスタンスが作成されると、イベントサブスクリプションで登録した e-mailへDBインスタンスが作成されたことが通知されます。
 
 * **ここで座学に戻ります**
@@ -624,11 +626,10 @@ analyze compression sh1.sales;
 
 ### 5-1-6. Auto Scalingの確認 （オプション）
   * 「サービス」→「RDS」→「クラスター」→「クラスター」ペイン → 「DBクラスター識別子」列の **ap96-cluster** のリンク → 「DBクラスターメンバー」ペイン
-    * 新規インスタンスが作成されているとを確認してください。作成されたDBインスタンス名のリンクをクリック →
-    * 「詳細」ペインの「フェイルオーバー優先度」が **15** （最も低い)となっで作成されていることなどを確認
+    * 新規インスタンスが作成されているとを確認してください。作成されたDBインスタンス名のリンクをクリック →「詳細」ペインの「フェイルオーバー優先度」が **15** （最も低い)となっで作成されていることなどを確認
 
 #### 5-1-6-1. DbVisualizer で実行中の負荷かけスクリプトの停止 （オプション）
-  * 「DbVisualizer」→ 「メニュー」→「SQL Commander」→「Stop」を洗濯してスクリプトを停止させます。
+  * 「DbVisualizer」→ 「メニュー」→「SQL Commander」→「Stop」を選択してスクリプトを停止させます。
   * 同様の手順で残る 2つの負荷かけスクリプトを停止させます。
 
 * **ここで座学に戻ります**
@@ -647,6 +648,7 @@ analyze compression sh1.sales;
   |application-autoscaling-xxx|15|Replica(Auto Scalingで追加。  既に削除されている可能性もあります)|
 
 * **ハンズオンPart.1はここで終了です。早めに終了した方は休憩していただいて結構です。**
+
 
 
 ### 5-2-1. イベントサブスクリプションの設定 （オプション）
@@ -689,7 +691,7 @@ analyze compression sh1.sales;
   * 「サイドバー」→「クラスター」→「DBクラスター識別子」列下のDBクラスター名のハイパーリンク → 「DB クラスターメンバー」ペイン → 「更新」ボタン
     * レプリカ　**ap96-XXX-1d** のロールが、読み込みから書き込みへ昇格したことを確認します。
 
-  * フェイルオーバーが発生後、イベントサブスクリクションで登録したメールアドレスへフェイルオーバーの通知が届きます。どのような内容のメールが届くのかかご確認ください。
+  * フェイルオーバーが発生後、イベントサブスクリクションで登録したメールアドレスへフェイルオーバーの通知が届きます。どのような内容のメールが届くのかご確認ください。
     * 「最近のイベント」ペインに以下のようなイベントが記録されていることも確認します。
     ```
     Completed failover to DB instance: ap96-XXX-1d
@@ -729,15 +731,15 @@ analyze compression sh1.sales;
       explain analyze SELECT COUNT(ref_no) FROM t1 WHERE ref_no BETWEEN 1 AND 250;
       ```
 
-      * 実行計画は以下の通りです。
-      ```
-      Aggregate  (cost=289382.49..289382.50 rows=1 width=8) (actual time=2160.475..2160.475 rows=1 loops=1)
-      ->  Seq Scan on t1  (cost=0.00..283334.00 rows=2419397 width=5) (actual time=0.093..1994.440 rows=2500000 loops=1)
-        Filter: ((ref_no >= '1'::numeric) AND (ref_no <= '250'::numeric))
-        Rows Removed by Filter: 7500000
-      Planning time: 0.074 ms
-      Execution time: 2160.498 ms
-      ```
+          * 実行計画は以下の通りです。
+          ```
+          Aggregate  (cost=289382.49..289382.50 rows=1 width=8) (actual time=2160.475..2160.475 rows=1 loops=1)
+          ->  Seq Scan on t1  (cost=0.00..283334.00 rows=2419397 width=5) (actual time=0.093..1994.440 rows=2500000 loops=1)
+            Filter: ((ref_no >= '1'::numeric) AND (ref_no <= '250'::numeric))
+            Rows Removed by Filter: 7500000
+          Planning time: 0.074 ms
+          Execution time: 2160.498 ms
+          ```
 
       * 以下の SQL文を SQL Commanderへコピーペーストし、「メニュー」→「SQL Commander」→「Execute」を選択しSQL文を実行して、セグメントサイズを確認してみてください。
       ```
@@ -768,38 +770,36 @@ analyze compression sh1.sales;
         2 DESC;
       ```
 
-      * 結果は以下の通りです。
-      ```
-      objectname |         GB          
-      -----------+---------------------
-      t1         |                1.00
-      t2         |                1.00
-      ```
+          * 結果は以下の通りです。
+          ```
+          objectname |         GB          
+          -----------+---------------------
+          t1         |                1.00
+          t2         |                1.00
+          ```
 
       * これらのことから、t1表のref_no列に索引が存在しないため、1GBのデータサイズ、かつ、 10,000,000行のデータを全表走査し、7,500,000行のデータを読み込んだ上で捨てていることがわかります。
-      * この例では物理読み込みはキャッシュにヒットしているため影響していないが、1GBは読み込み過ぎ、なので、適切な索引があれば、フィルターリングによるCPU処理も全表走査の読み込み量も同時に減らせることになります。
-      * ref_no以外に、seq_noも検索されそうなので、ref_no,seq_no列に索引を作成することで大きく改善します。
+      * この例では物理読み込みはキャッシュにヒットしているため影響していませんが、1GBは読み込み過ぎであるため、適切な索引があれば、フィルタリングによるCPU処理も全表走査の読み込み量も同時に減らせることになります。
+      * ref_no以外に、seq_noも検索されそうなので、ref_no,seq_no列に索引を作成することで大きく改善します。(索引の作成に　**2,30秒**　程度要します)
       ```
       create index ix_t1 on t1(ref_no, seq_no);
-      ```
-
-      ```
       explain analyze SELECT COUNT(ref_no) FROM t1 WHERE ref_no BETWEEN 1 AND 250;
       ```
 
-      ```
-      Aggregate  (cost=91736.67..91736.68 rows=1 width=8) (actual time=624.912..624.912 rows=1 loops=1)
-      ->  Index Only Scan using ix_t1 on t1  (cost=0.43..85685.98 rows=2420277 width=5) (actual time=0.034..457.772 rows=2500000 loops=1)
-         Index Cond: ((ref_no >= '1'::numeric) AND (ref_no <= '250'::numeric))
-         Heap Fetches: 0
-      Planning time: 0.110 ms
-      Execution time: 624.940 ms
-      ```
+          * 結果は以下の通りです。 Seq Scan から Index Only Scan に変わり、Heapへのアクセスが回避されたことで大きく改善しています。
+          ```
+          Aggregate  (cost=91736.67..91736.68 rows=1 width=8) (actual time=624.912..624.912 rows=1 loops=1)
+          ->  Index Only Scan using ix_t1 on t1  (cost=0.43..85685.98 rows=2420277 width=5) (actual time=0.034..457.772 rows=2500000 loops=1)
+             Index Cond: ((ref_no >= '1'::numeric) AND (ref_no <= '250'::numeric))
+             Heap Fetches: 0
+          Planning time: 0.110 ms
+          Execution time: 624.940 ms
+          ```
 
 ### 5-3-2. 遅延分析及びチューニング　その２
   * 「サービス」→「RDS」→「パフォーマンスインサイト」→ DBインスタンス「ap96」ラジオボタンを選択　→　「データベースのロード」ペイン　を表示
   * DbVisualizerを 2つ起動して、それぞれ Cluster Endpointに接続し、メニューから「SQL Commander」を開いた状態にします。
-  * DbVisualizer → 「Databases」タブ → 「Connections」ツリー → 「Cluster Endpoint」を選択、右クリック → ポップアップメニュー「Connect」
+  * DbVisualizer → 「Databases」タブ → 「Connections」ツリー → 「Cluster Endpoint」を選択、右クリック → ポップアップメニュー「Connect」を洗濯してDBへ接続します。
   * DbVisualizer → 「メニュー」→「SQL Commander」で、SQL Commanderペインを開きます。
   * DbVisualizer → 「メニュー」→「SQL Commander」→ 「Transaction」→　サブメニュー「**Turn off auto commit**」を選択します。（**2つのDbVisualizerともAuto Commitはoffにします。。なお、SQL Commanderの中段に、Auto Commit : ON/OFF が表示されいるので合わせて確認してください**）
 
@@ -842,17 +842,17 @@ analyze compression sh1.sales;
     ;
     ```
 
-    * 以下のサンプルのように、ロックのタイプとロックしているオブジェクトを確認できます。
-    ```
-          CURRENT_TIMESTAMP       | relname | locktype | database | relation | page | tuple | virtualtransaction |  pid  |       mode        | granted
-    ------------------------------+---------+----------+----------+----------+------+-------+--------------------+-------+------------------+---------
-    2018-11-09 06:19:50.395239+00 | ix_t1   | relation |    16394 |    24588 |      |       | 7/334              | 27126 | RowExclusiveLock | t
-    2018-11-09 06:19:50.395254+00 | t1      | relation |    16394 |    16401 |      |       | 7/334              | 27126 | RowExclusiveLock | t
-    2018-11-09 06:19:50.395256+00 | ix_t1   | relation |    16394 |    24588 |      |       | 6/575              | 27722 | RowExclusiveLock | t
-    2018-11-09 06:19:50.395258+00 | t1      | relation |    16394 |    16401 |      |       | 6/575              | 27722 | RowExclusiveLock | t
-    2018-11-09 06:19:50.39526+00  | t1      | tuple    |    16394 |    16401 |    0 |    77 | 7/334              | 27126 | ExclusiveLock    | t
-    (5 rows)
-    ```
+        * 以下のサンプルのような結果が得られます。（ロックのタイプとロックしているオブジェクトを確認できます）
+        ```
+              CURRENT_TIMESTAMP       | relname | locktype | database | relation | page | tuple | virtualtransaction |  pid  |       mode       | granted
+        ------------------------------+---------+----------+----------+----------+------+-------+--------------------+-------+------------------+---------
+        2018-11-09 06:19:50.395239+00 | ix_t1   | relation |    16394 |    24588 |      |       | 7/334              | 27126 | RowExclusiveLock | t
+        2018-11-09 06:19:50.395254+00 | t1      | relation |    16394 |    16401 |      |       | 7/334              | 27126 | RowExclusiveLock | t
+        2018-11-09 06:19:50.395256+00 | ix_t1   | relation |    16394 |    24588 |      |       | 6/575              | 27722 | RowExclusiveLock | t
+        2018-11-09 06:19:50.395258+00 | t1      | relation |    16394 |    16401 |      |       | 6/575              | 27722 | RowExclusiveLock | t
+        2018-11-09 06:19:50.39526+00  | t1      | tuple    |    16394 |    16401 |    0 |    77 | 7/334              | 27126 | ExclusiveLock    | t
+        (5 rows)
+        ```
 
     * Performance Insights及び、ロックされているオブジェクトの状態を確認後、以下の手順でロールバックします。
       * 1つ目のDbVisualizerにて → 「メニュー」→「SQL Commander」→ 「Transaction」→　サブメニュー「Rollback」
@@ -864,7 +864,7 @@ analyze compression sh1.sales;
   * **時間に余裕のある方のみ**
 
   * **前の操作で mydb に接続している 2つの DbVisualizer をそのまま利用します**
-  * 1つ目の DbVisualizer で以下の無名PL/pgSQLスクリプトをSQL Commander へコピーペースト → 「メニュー」→「SQL Commander」→「Execute Buffer」（▶︎アイコンと赤い●アイコンが組み合わされている）を洗濯して実行します。（このスクリプトは無限ループし1vCPUのコアを消費し続けます
+  * 1つ目の DbVisualizer で以下の無名PL/pgSQLスクリプトをSQL Commander へコピーペースト → 「メニュー」→「SQL Commander」→「Execute Buffer」（▶︎アイコンと赤い●アイコンが組み合わされています）を選択して実行します。（このスクリプトは無限ループし1vCPUのコアを消費し続けます
   ```
   DO $$BEGIN
     LOOP
@@ -883,6 +883,7 @@ analyze compression sh1.sales;
      * **Performance InsightsのグラフからCPU利用率100%のセッションが 1 つあることを確認**
 
     * 2つ目の DvVisualizer で以下のSQL文を何度か実行してください。(1 行ヒットするまで実行して見てください) **Schema は public** になっていることを確認します。
+    * 以下のクエリーでは実行時間が10秒以上経過したSQL文を取得しています、
     ```
     SELECT
       pid
@@ -901,25 +902,25 @@ analyze compression sh1.sales;
     ORDER BY
      elapsed_time DESC;
     ```
+    * 該当クエリーが長時間実行されている、いわゆるかけ逃げクエリーである場合には、セッションをキャンセルすることも可能です。
 
-    * このクエリーでは実行時間が10秒以上経過したSQL文を取得するようにしています。該当クエリーが長時間実行されているいわゆるかけ逃げクエリーであれば、セッションをキャンセルすることも可能です。
     * 前述のクエリーを実行したDbVisualizerのSQL Commanderから以下のSQL文を実行してください。
     ```
     SELECT pg_cancel_backend( 前述のクエリーで得られたpidの値 );
     ```
 
-    * 以下の結果が返されます。
-    ```
-    pg_cancel_backend
-    -----------------
-    true
-    ```
+        * 以下の結果が返されます。
+        ```
+        pg_cancel_backend
+        -----------------
+        true
+        ```
 
-    * 無限ループするPL/pgSQLを実行しているセッションでは以下のエラーを受け取り処理がキャンセルされます。
-    ```
-    ERROR:  canceling statement due to user request
-    CONTEXT:  PL/pgSQL function inline_code_block line 2 at LOOP
-    ```
+        * 無限ループするPL/pgSQLを実行しているセッションでは以下のエラーを受け取り処理がキャンセルされます。
+        ```
+        ERROR:  canceling statement due to user request
+        CONTEXT:  PL/pgSQL function inline_code_block line 2 at LOOP
+        ```
 
 ## お疲れ様でした。これでハンズオンは終了です。
 ## **ハンズオン環境の削除等はこちらで行います。そのままにしておいていただいて結構です。**
