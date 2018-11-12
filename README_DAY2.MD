@@ -875,14 +875,14 @@ analyze compression sh1.sales;
       , wait_event
       , state
       , query
-   FROM
+    FROM
      pg_stat_activity
-   WHERE
+    WHERE
       now() - query_start > '10 seconds'::interval
       AND  state = 'active'
-   ORDER BY
+    ORDER BY
      elapsed_time DESC;
-   ```
+    ```
     
    * このクエリーでは実行時間が10秒以上経過したSQL文を取得するようにしています。該当クエリーが長時間実行されているいわゆるかけ逃げクエリーであれば、セッションをキャンセルすることも可能です。
    * 前述のクエリーを実行したDbVisualizerのSQL Commanderから以下のSQL文を実行してください。
