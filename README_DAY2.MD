@@ -703,7 +703,7 @@ analyze compression sh1.sales;
 
   * フェイルオーバーが発生後、イベントサブスクリクションで登録したメールアドレスへフェイルオーバーの通知が届きます。どのような内容のメールが届くのかご確認ください。
     * 「最近のイベント」ペインに以下のようなイベントが記録されていることも確認します。
-
+    
     ```
     Completed failover to DB instance: ap96-XXX-1d
     Started cross AZ failover to DB instance: ap96-XXX-1d
@@ -743,16 +743,15 @@ analyze compression sh1.sales;
       ```
       explain analyze SELECT COUNT(ref_no) FROM t1 WHERE ref_no BETWEEN 1 AND 250;
       ```
-          * 実行計画は以下の通りです。
-
-          ```
-          Aggregate  (cost=289382.49..289382.50 rows=1 width=8) (actual time=2160.475..2160.475 rows=1 loops=1)
-          ->  Seq Scan on t1  (cost=0.00..283334.00 rows=2419397 width=5) (actual time=0.093..1994.440 rows=2500000 loops=1)
-            Filter: ((ref_no >= '1'::numeric) AND (ref_no <= '250'::numeric))
-            Rows Removed by Filter: 7500000
-          Planning time: 0.074 ms
-          Execution time: 2160.498 ms
-          ```
+        * 実行計画は以下の通りです。
+        ```
+        Aggregate  (cost=289382.49..289382.50 rows=1 width=8) (actual time=2160.475..2160.475 rows=1 loops=1)
+        ->  Seq Scan on t1  (cost=0.00..283334.00 rows=2419397 width=5) (actual time=0.093..1994.440 rows=2500000 loops=1)
+          Filter: ((ref_no >= '1'::numeric) AND (ref_no <= '250'::numeric))
+          Rows Removed by Filter: 7500000
+        Planning time: 0.074 ms
+        Execution time: 2160.498 ms
+        ```
 
       * 以下の SQL文を SQL Commanderへコピーペーストし、「メニュー」→「SQL Commander」→「Execute」を選択しSQL文を実行して、セグメントサイズを確認してみてください。
 
@@ -783,8 +782,7 @@ analyze compression sh1.sales;
       ORDER BY
         2 DESC;
       ```
-          * 結果は以下の通りです。
-
+        * 結果は以下の通りです。
           ```
           objectname |         GB          
           -----------+---------------------
@@ -800,8 +798,7 @@ analyze compression sh1.sales;
       create index ix_t1 on t1(ref_no, seq_no);
       explain analyze SELECT COUNT(ref_no) FROM t1 WHERE ref_no BETWEEN 1 AND 250;
       ```
-          * 結果は以下の通りです。 Seq Scan から Index Only Scan に変わり、Heapへのアクセスが回避されたことで大きく改善しています。
-
+        * 結果は以下の通りです。 Seq Scan から Index Only Scan に変わり、Heapへのアクセスが回避されたことで大きく改善しています。
           ```
           Aggregate  (cost=91736.67..91736.68 rows=1 width=8) (actual time=624.912..624.912 rows=1 loops=1)
           ->  Index Only Scan using ix_t1 on t1  (cost=0.43..85685.98 rows=2420277 width=5) (actual time=0.034..457.772 rows=2500000 loops=1)
@@ -834,7 +831,7 @@ analyze compression sh1.sales;
   * Performance InsightsのTop Load Item Tableの上部スライスは「待機」を選択、下部のスライスは「SQL」を選択することで、2つめのupdate文がロックの解放待ちになっていることが確認できるはずです。
   * Performance Insightsを活用するには待機イベントの考え方を理解することが重要です。
 
-    * 以下のSQL文を、1つめのDbVisualizerのSQL Commanderから実行します。
+  * 以下のSQL文を、1つめのDbVisualizerのSQL Commanderから実行します。
 
     ```
     SELECT
@@ -859,7 +856,7 @@ analyze compression sh1.sales;
       AND  relname <> 'active_locks'
     ;
     ```
-        * 以下のサンプルのような結果が得られます。（ロックのタイプとロックしているオブジェクトを確認できます）
+      * 以下のサンプルのような結果が得られます。（ロックのタイプとロックしているオブジェクトを確認できます）
         ```
               CURRENT_TIMESTAMP       | relname | locktype | database | relation | page | tuple | virtualtransaction |  pid  |       mode       | granted
         ------------------------------+---------+----------+----------+----------+------+-------+--------------------+-------+------------------+---------
@@ -926,13 +923,13 @@ analyze compression sh1.sales;
     ```
     SELECT pg_cancel_backend( 前述のクエリーで得られたpidの値 );
     ```
-      * 以下の結果が返されます。
+      * **以下の結果が返されます。**
         ```
         pg_cancel_backend
         -----------------
         true
         ```
-      * 無限ループするPL/pgSQLを実行しているセッションでは以下のエラーを受け取り処理がキャンセルされます。
+      * **無限ループするPL/pgSQLを実行しているセッションでは以下のエラーを受け取り処理がキャンセルされます。**
         ```
         ERROR:  canceling statement due to user request
         CONTEXT:  PL/pgSQL function inline_code_block line 2 at LOOP
