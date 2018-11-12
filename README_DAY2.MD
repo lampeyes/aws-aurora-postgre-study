@@ -748,11 +748,13 @@ analyze compression sh1.sales;
   ```
   update t1 set description = 'hoge' where ref_no = 1;
   ```
+  * **Auto Commit OFFの場合、"Commit"/"Rollback"/"Continue with Uncommited"を問うダイアログが表示されます。 "Continue with Uncommited"ボタンをクリックしてください。**
 
   * 2つめのDbVisualizerで以下のSQL文を実行（こちらのSQL文はトランザクションのcommit/rollbackを待機することになります）
   ```  
   update t1 set description = 'hoge' where ref_no = 1;
   ```
+  * **Auto Commit OFFの場合、"Commit"/"Rollback"/"Continue with Uncommited"を問うダイアログが表示されます。 "Continue with Uncommited"ボタンをクリックしてください。**
 
 * Performance InsightsのTop Load Item Tableの上部スライスは「待機」を選択、下部のスライスは「SQL」を選択することで、2つめのupdate文がロックの解放待ちになっていることが確認できるはずです。
   * Performance Insightsを活用するには待機イベントの考え方を理解することが重要です。
