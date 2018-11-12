@@ -473,45 +473,45 @@ analyze compression sh1.sales;
 
 ### 4-1-2 **読み込みエンドポイント向け接続設定**
   * 4-1-1 で作成した **クラスターエンドポイント向け接続設定** を選択し右クリック → ポップアップメニュ「Duplicate Database Connection」
-    * 以下項目のみ設定しその他内容は、4-1-1 の設定と同じ
+    * 以下項目のみ設定しその他内容は、4-1-1 の設定と同じです。
 
   ```
   Name    　　　　　　　　　: Reader Endpoint
   Database Server        : 事前作成されているap96-clusterクラスターの読み込みエンドポイント
   ```
   * **「Ping Server」ボタンをクリックし接続確認**
-  * 上記を設定したタブを閉じる
+  * 上記を設定したタブを閉じます。
 
 ### 4-1-3 **レプリカ1のインスタンスエンドポイント向け接続設定**
   * **便宜上、レプリカ1、レプリカ2と記載していますが、2つあるレプリカのうちどちらを1,2にしても構いません。**
 
   * 4-1-1 で作成した **クラスターエンドポイント向け接続設定** を選択し右クリック → ポップアップメニュ「Duplicate Database Connection」
-      * 以下項目のみ設定しその他内容は、4-1-1 の設定と同じ
+      * 以下項目のみ設定しその他内容は、4-1-1 の設定と同じです。
 
   ```
   Name    　　　　　　　　　: Replica1 Endpoint
   Database Server        : 事前作成されているap96-clusterのレプリカ1のDBインスタンスエンドポイント
   ```
   * **「Ping Server」ボタンをクリックし接続確認**
-  * 上記を設定したタブを閉じる
+  * 上記を設定したタブを閉じます。
 
 ### 4-1-4 **レプリカ2のインスタンスエンドポイント向け接続設定**
 
   * 4-1-1 で作成した **クラスターエンドポイント向け接続設定** を選択し右クリック → ポップアップメニュ「Duplicate Database Connection」
-    * 以下項目のみ設定しその他内容は、4-1-1 の設定と同じ
+    * 以下項目のみ設定しその他内容は、4-1-1 の設定と同じです。
 
   ```
   Name    　　　　　　　　　: Replica2 Endpoint
   Database Server        : 事前作成されているap96-clusterのレプリカ2のDBインスタンスエンドポイント
   ```
   * **「Ping Server」ボタンをクリックし接続確認**
-  * 上記を設定したタブを閉じる
+  * 上記を設定したタブを閉じます。
 
 # 5. ハンズオン
-* Aurora PostgreSQLクラスターを利用した運用監視、チューニングなどのトラブルシューティングを体験していだだきます。
+* Aurora PostgreSQLクラスターを利用した運用監視、チューニングなどのトラブルシューティングを体験していただきます。
 
 ## 5-1. Auto Scaling （オプション）
-* レプリカに一定の負荷をかけScale out / Scale inを体験していただきます。(CloudWatch Dashboardの作成及び、イベントサブスクリプションe-mailの設定含む)
+* レプリカに一定の負荷をかけScale out / Scale inを体験していただきます。(CloudWatch Dashboardの作成及び、イベントサブスクリプションe-mailの設定含みます)
 
 ### 5-1-1. Auto Scalingの設定 （オプション）
   * 「サービス」→「サイドバー」→「クラスター」→「クラスター」ペイン → 「DBクラスター識別子」列の ap96-clusterのリンク → 「Auro Scalingポリシー」ペイン →　「追加」ボタン
@@ -522,7 +522,7 @@ analyze compression sh1.sales;
   ターゲットメトリクス : 「Auroraレプリカの平均CPU使用率」ラジオボタン
   ターゲット値　　　　 : 50
   ```
-  * 「▶︎追加の設定」をクリックして拡張
+  * 「▶︎追加の設定」をクリックして拡張します。
 
   ```
   スケールイン                : 「有効」スライドボタン
@@ -536,7 +536,7 @@ analyze compression sh1.sales;
   最大キャパシティ : 3
   ```
 
-  * 「ポリシーの追加」ボタンをクリック
+  * 「ポリシーの追加」ボタンをクリックします。
 
 ### 5-1-2. イベントサブスクリプションの設定 （オプション）
   * 「サイドバー」→ 「イベントサブスクリプション」→ 「イベントサブスクリプションの作成」ボタン →「イベントサブスクリプションの作成」画面
@@ -560,8 +560,7 @@ analyze compression sh1.sales;
   含まれるイベントカテゴリ : 「特定のイベントカテゴリを選択します」ラジオボタン数
   特定のイベント　　　　　 : ポップアップメニューから「作成」と「削除」を選ぶ
   ```
-
-  * 「作成」ボタンをクリック
+  * 「作成」ボタンをクリックします。
 
 ### 5-1-3. CloudWatch Dashboardの設定 （オプション）
   * 「サービス」→「サイドバー」→「ダッシュボード」→「ダッシュボード」ペイン → 「ダッシュボードの作成」ボタン
@@ -570,13 +569,13 @@ analyze compression sh1.sales;
   ```
   ダッシュボード名 : handson
   ```
-  * 「ダッシュボードの作成」ボタンをクリック
+  * 「ダッシュボードの作成」ボタンをクリックします。
 
   * 「ダッシュボードに追加」ダイアログ
   ```
   「数値」ボタンアイコン
   ```
-  * 「設定」ボタンをクリック
+  * 「設定」ボタンをクリックします。
 
   * 「メトリクスグラフの追加」ダイアログ → 「すべてのメトリクス」タブ → 「RDS」→「データベース別メトリクス」→ 「検索ボックス」
   ```
@@ -585,28 +584,27 @@ analyze compression sh1.sales;
   * 入力後 ↩︎[CR] → リストされた **ap96** の 3 DBインスタンスのチェックボックスをクリック → 「ウィジェットの作成」ボタンをクリック
 
   * 「ウィジェットの追加」ボタン → 「ダッシュボードに追加」ダイアログ
-
 　```
 　「数値」ボタンアイコン
 　```
-  * 「設定」ボタンをクリック
+  * 「設定」ボタンをクリックします。
+
 
   * 「メトリクスグラフの追加」ダイアログ → 「すべてのメトリクス」タブ → 「RDS」→「データベース別メトリクス」→ 「検索ボックス」
-
 　```
   FreeLocalStorage
 　```
-  * 入力後 ↩︎[CR] → リストされた **ap96** の 3 DBインスタンスのチェックボックスをクリック → 「ウィジェットの作成」ボタンをクリック → 「ダッシュボードの保存」ボタンをクリック
+  * 入力後 ↩︎[CR] → リストされた **ap96** の 3 DBインスタンスのチェックボックスをクリック → 「ウィジェットの作成」ボタンをクリック → 「ダッシュボードの保存」ボタンをクリックします。
 
 
 ### 5-1-4. Auto Scalingによるスケールアウトとスケールイン （オプション）
-  * DbVisualizer を 3 つ起動（無料版では、複数のSQL Commanderペインをひらけないため）
-    * 2のDbVislalizerで **Replica1 Endpoint** へ接続し、残りの1つは、 **Replica2 Endpoint** へ接続し、それぞれで、SQL Commander ペインを開く
+  * DbVisualizer を 3 つ起動（無料版では、複数のSQL Commanderペインを開けないため）
+    * 2のDbVislalizerで **Replica1 Endpoint** へ接続し、残りの1つは、 **Replica2 Endpoint** へ接続し、それぞれで、SQL Commander ペインを開きます。
 
     * **操作例**
      * 「Databaes」タブ → 「Connections」ツリー → 「Replia1 Endpotion」を選択し右クリック → ポップアップメニュー「Connect」
      * 「メニュー」→「SQL Commander」→ 「Database」は **mydb** 、 「Schema」は、 **hoge** 　になっていることを確認、なっていない場合には、各ドロップダウンメニューより選択
-      * それぞれの **SQL Commander** ペインで以下を入力
+      * それぞれの **SQL Commander** ペインで以下を入力、
       ```
       DO $$BEGIN
         LOOP
@@ -614,11 +612,11 @@ analyze compression sh1.sales;
         END LOOP;
       END$$;
       ```
-      * 入力後　→ 「メニュー」→「SQL Commander」→「Execute Buffer」を選択して実行
+      * 入力後　→ 「メニュー」→「SQL Commander」→「Execute Buffer」を選択して実行します。
 
 ### 5-1-5. CloudWatch Dashboardでのモニタリング （オプション）
-  * レプリカ1のCPUUtilizatonが 100% 、レプリカ2のCPUUtilizatonが 50% 程度になりしばらくすると、Auto Scalingにより、レプリカが１インスタンス自動作成
-    * インスタンスが作成されると、イベントサブスクリプションで登録した e-mailへDBインスタンスが作成されたことが通知される
+  * レプリカ1のCPUUtilizatonが 100% 、レプリカ2のCPUUtilizatonが 50% 程度になりしばらくすると、Auto Scalingにより、レプリカが１インスタンス自動作成されます。
+    * インスタンスが作成されると、イベントサブスクリプションで登録した e-mailへDBインスタンスが作成されたことが通知されます。
 
 * **ここで座学に戻ります**
 * **レプリカが追加されたことを通知するメールが届いたら状況を確認するためハンズオンを再開します**
@@ -630,8 +628,8 @@ analyze compression sh1.sales;
     * 「詳細」ペインの「フェイルオーバー優先度」が **15** （最も低い)となっで作成されていることなどを確認
 
 #### 5-1-6-1. DbVisualizer で実行中の負荷かけスクリプトの停止 （オプション）
-  * 「DbVisualizer」→ 「メニュー」→「SQL Commander」→「Stop」を洗濯してスクリプトを停止させる
-  * 同様の手順で残る 2つの負荷かけスクリプトを停止
+  * 「DbVisualizer」→ 「メニュー」→「SQL Commander」→「Stop」を洗濯してスクリプトを停止させます。
+  * 同様の手順で残る 2つの負荷かけスクリプトを停止させます。
 
 * **ここで座学に戻ります**
 
@@ -675,24 +673,24 @@ analyze compression sh1.sales;
     含まれるイベントカテゴリー : 「特定のイベントカテゴリを選択します」ラジオボタンを選択
     特定のイベント　　　　　　 : ドロップダウンメニューから「 **フェイルオーバー** 」を選択
     ```
-      * 「作成」ボタンをクリック
+    * 「作成」ボタンをクリックします。
 
 
     * 「ターゲットペイン」の「受信者」で設定したメールアドレスへ、Confirmationメールが届きますので、メールのリンクをクリックしてConfirmationします。
       * なお、Confirmationできない誤ったメールアドレスを設定した場合には、Pending Confirmationとなり3日後に自動削除されます。
       * メールアドレスのConcifmation状況は以下の方法で確認できます。
-        * 「サービス」→「Simple Notification Service」→「サブスクリプション」→「サブスクリプション」画面
+        * 「サービス」→「Simple Notification Service」→「サブスクリプション」→「サブスクリプション」画面 →
         * 「サブスクリクション」画面のフィルターボックスで **PendingConfirmation** と入力するとPending中のConfirmation一覧を確認することができます。
 
 
 ### 5-2-2. 手動フェイルオーバー （オプション）
 * 手動フェイルオーバーを行い、フェイルオーバー優先度:1の **ap96-XXX-1d** インスタンスがプライマリーインスタンスへ昇格することを確認してください。
-  * 「詳細」ペインの「フェイルオーバー優先順位」を参照している画面上部の「インスタンス操作」メニュー → 「フェイルオーバー」→ 「Failover DB Cluster」画面 → 「フェイルオーバー」ボタンをクリック
+  * 「詳細」ペインの「フェイルオーバー優先順位」を参照している画面上部の「インスタンス操作」メニュー → 「フェイルオーバー」→ 「Failover DB Cluster」画面 → 「フェイルオーバー」ボタンをクリックします。
   * 「サイドバー」→「クラスター」→「DBクラスター識別子」列下のDBクラスター名のハイパーリンク → 「DB クラスターメンバー」ペイン → 「更新」ボタン
-    * レプリカ　**ap96-XXX-1d** のロールが、読み込みから書き込みへ昇格したことを確認してください。
+    * レプリカ　**ap96-XXX-1d** のロールが、読み込みから書き込みへ昇格したことを確認します。
 
   * フェイルオーバーが発生後、イベントサブスクリクションで登録したメールアドレスへフェイルオーバーの通知が届きます。どのような内容のメールが届くのかかご確認ください。
-    * 「最近のイベント」ペインに以下のようなイベントが記録されていることも確認してみてください。
+    * 「最近のイベント」ペインに以下のようなイベントが記録されていることも確認します。
     ```
     Completed failover to DB instance: ap96-XXX-1d
     Started cross AZ failover to DB instance: ap96-XXX-1d
@@ -705,13 +703,13 @@ analyze compression sh1.sales;
 
 
 ### 5-3-1. 遅延分析及びチューニング　その１　
-  * 「サービス」→「RDS」→「パフォーマンスインサイト」→ DBインスタンス「ap96」ラジオボタンを選択　→　「データベースのロード」ペイン　を表示
+  * 「サービス」→「RDS」→「パフォーマンスインサイト」→ DBインスタンス「ap96」ラジオボタンを選択　→　「データベースのロード」ペイン　を表示します。
   * DbVisualizer → 「Databases」タブ → 「Connections」ツリー → 「Cluster Endpoint」を選択、右クリック → ポップアップメニュー「Connect」
-  * DbVisualizer → 「メニュー」→「SQL Commander」で、SQL Commanderペインを開く
-  * **注意** 「メニュー」→「SQL Commander」→ 「Database」は **mydb** 、 「Schema」は、 **hoge** 　になっていることを確認、なっていない場合には、各ドロップダウンメニューより選択
+  * DbVisualizer → 「メニュー」→「SQL Commander」で、SQL Commanderペインを開きます。
+  * **注意** 「メニュー」→「SQL Commander」→ 「Database」は **mydb** 、 「Schema」は、 **hoge** 　になっていることを確認、なっていない場合には、各ドロップダウンメニューより選択します。
 
   * **以下のSQL文の性能要件は、TAT 1秒以内です**
-    * 以下の SQL文を SQL Commanderへコピーペーストし、「メニュー」→「SQL Commander」→「Execute」を選択しSQL文を実行
+    * 以下の SQL文を SQL Commanderへコピーペーストし、「メニュー」→「SQL Commander」→「Execute」を選択しSQL文を実行します。
     ```
     SELECT COUNT(ref_no) FROM t1 WHERE ref_no BETWEEN 1 AND 250;
     ```
@@ -726,12 +724,12 @@ analyze compression sh1.sales;
 
       * チューニング方法を検討するため、実行計画(Actual)を確認する必要がありますが、どのような方法で確認できますか？
       * 実行計画(Actual)と、定義(DbVisualizerで列定義や索引）を確認できます。  
-      * 実行計画(Actual)は以下のように取得できます。  
+      * 実行計画(Actual)は以下文で取得できます。  
       ```
       explain analyze SELECT COUNT(ref_no) FROM t1 WHERE ref_no BETWEEN 1 AND 250;
       ```
 
-      * 実行計画は以下の通り
+      * 実行計画は以下の通りです。
       ```
       Aggregate  (cost=289382.49..289382.50 rows=1 width=8) (actual time=2160.475..2160.475 rows=1 loops=1)
       ->  Seq Scan on t1  (cost=0.00..283334.00 rows=2419397 width=5) (actual time=0.093..1994.440 rows=2500000 loops=1)
@@ -741,7 +739,7 @@ analyze compression sh1.sales;
       Execution time: 2160.498 ms
       ```
 
-      * 以下の SQL文を SQL Commanderへコピーペーストし、「メニュー」→「SQL Commander」→「Execute」を選択しSQL文を実行して、セグメントサイズを確認してみてください
+      * 以下の SQL文を SQL Commanderへコピーペーストし、「メニュー」→「SQL Commander」→「Execute」を選択しSQL文を実行して、セグメントサイズを確認してみてください。
       ```
       SELECT
        objectname
@@ -770,7 +768,7 @@ analyze compression sh1.sales;
         2 DESC;
       ```
 
-      * 結果は以下の通り
+      * 結果は以下の通りです。
       ```
       objectname |         GB          
       -----------+---------------------
@@ -779,8 +777,8 @@ analyze compression sh1.sales;
       ```
 
       * これらのことから、t1表のref_no列に索引が存在しないため、1GBのデータサイズ、かつ、 10,000,000行のデータを全表走査し、7,500,000行のデータを読み込んだ上で捨てていることがわかります。
-      * この例では物理読み込みはキャッシュにヒットしているため影響していないが、1GBは読み込み過ぎ、なので、適切な索引があれば、フィルターリングによるCPU処理も全表走査の読み込み量も同時に減らせる。
-      * ref_no以外に、seq_noも検索されそうなので、ref_no,seq_no列に索引を作成することで大きく改善する
+      * この例では物理読み込みはキャッシュにヒットしているため影響していないが、1GBは読み込み過ぎ、なので、適切な索引があれば、フィルターリングによるCPU処理も全表走査の読み込み量も同時に減らせることになります。
+      * ref_no以外に、seq_noも検索されそうなので、ref_no,seq_no列に索引を作成することで大きく改善します。
       ```
       create index ix_t1 on t1(ref_no, seq_no);
       ```
@@ -802,16 +800,16 @@ analyze compression sh1.sales;
   * 「サービス」→「RDS」→「パフォーマンスインサイト」→ DBインスタンス「ap96」ラジオボタンを選択　→　「データベースのロード」ペイン　を表示
   * DbVisualizerを 2つ起動して、それぞれ Cluster Endpointに接続し、メニューから「SQL Commander」を開いた状態にします。
   * DbVisualizer → 「Databases」タブ → 「Connections」ツリー → 「Cluster Endpoint」を選択、右クリック → ポップアップメニュー「Connect」
-  * DbVisualizer → 「メニュー」→「SQL Commander」で、SQL Commanderペインを開く
-  * DbVisualizer → 「メニュー」→「SQL Commander」→ 「Transaction」→　サブメニュー「**Turn off auto commit**」を選択する（**2つのDbVisualizerともAuto Commitはoffにする。なお、SQL Commanderの中段に、Auto Commit : ON/OFF が表示されているので合わせて確認してください**）
+  * DbVisualizer → 「メニュー」→「SQL Commander」で、SQL Commanderペインを開きます。
+  * DbVisualizer → 「メニュー」→「SQL Commander」→ 「Transaction」→　サブメニュー「**Turn off auto commit**」を選択します。（**2つのDbVisualizerともAuto Commitはoffにします。。なお、SQL Commanderの中段に、Auto Commit : ON/OFF が表示されいるので合わせて確認してください**）
 
   * 1つめのDbVisualizerで以下のSQL文を実行
   ```
   update t1 set description = 'hoge' where ref_no = 1;
   ```
-  * **Auto Commit OFFの場合、"Commit"/"Rollback"/"Continue with Uncommited"を問うダイアログが表示されます。 "Continue with Uncommited"ボタンをクリックしてください。**
+  * **Auto Commit OFFの場合、"Commit"/"Rollback"/"Continue with Uncommited"を問うダイアログが表示されます。 "Continue with Uncommited"ボタンをクリックします。**
 
-  * 2つめのDbVisualizerで以下のSQL文を実行（こちらのSQL文はトランザクションのcommit/rollbackを待機することになります）
+  * 2つめのDbVisualizerで以下のSQL文を実行します。（こちらのSQL文はトランザクションのcommit/rollbackを待機することになります）
   ```  
   update t1 set description = 'hoge' where ref_no = 1;
   ```
@@ -819,7 +817,7 @@ analyze compression sh1.sales;
   * Performance InsightsのTop Load Item Tableの上部スライスは「待機」を選択、下部のスライスは「SQL」を選択することで、2つめのupdate文がロックの解放待ちになっていることが確認できるはずです。
   * Performance Insightsを活用するには待機イベントの考え方を理解することが重要です。
 
-    * 以下のSQL文を、1つめのDbVisualizerのSQL Commanderから実行してください。
+    * 以下のSQL文を、1つめのDbVisualizerのSQL Commanderから実行します。。
     ```
     SELECT
       clock_timestamp() AS "CURRENT_TIMESTAMP"
@@ -877,14 +875,14 @@ analyze compression sh1.sales;
 
   * **プライマリインスタンスのDBインスタンス名を確認**
     * この例ではプライマリーインスタンスへ接続していますが、パフォーマンスインサイトが有効なインスタンスは、DBインスタンス名でリストされているためプライマリーインスタンスとなっているDBインスタンス名を確認しておく必要があります。
-    * 確認方法は次の通り
+    * **確認方法は次の通りです**
     * 「サービス」→「RDS」→「クラスター」→「クラスターメンバー」ペイン → 「ロール」列が **書き込み** となっている「dbインスタンス」をメモ帳などにコピーしておきます。
     * マネージメントコンソール →「サービス」→「RDS」→「パフォーマンスインサイト」→ 前述の方法で確認したDBインスタンのリンク
      * Performance Insights → 「時間軸」→「5分」→ グラフ右横の「スライス基準」メニュー → 「待機」
      * Performance Insights →　グラフ下方のTop Load Itel Tableのスライス基準 →「SQL」
      * **Performance InsightsのグラフからCPU利用率100%のセッションが 1 つあることを確認**
 
-    * 2つ目の DvVisualizer で以下のSQL文を何度か実行してください。(1 行ヒットするまで実行して見てください) **Schema は public** になっていることを確認してください。
+    * 2つ目の DvVisualizer で以下のSQL文を何度か実行してください。(1 行ヒットするまで実行して見てください) **Schema は public** になっていることを確認します。
     ```
     SELECT
       pid
