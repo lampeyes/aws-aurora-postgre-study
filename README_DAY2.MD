@@ -452,7 +452,7 @@ analyze compression sh1.sales;
   Save Database Password : Save between Sessions
   Permisssion mode       : Development
   ```
-  * **「Ping Server」ボタンをクリツクし接続確認**
+  * **「Ping Server」ボタンをクリックし接続確認**
   * 「Finish」ボタン
 
 ### 4-1-2 **読み込みエンドポイント向け接続設定**
@@ -463,7 +463,7 @@ analyze compression sh1.sales;
   Name    　　　　　　　　　: Reader Endpoint
   Database Server        : 事前作成されているap96-clusterクラスターの読み込みエンドポイント
   ```
-  * **「Ping Server」ボタンをクリツクし接続確認**
+  * **「Ping Server」ボタンをクリックし接続確認**
   * 上記を設定したタブを閉じる
 
 ### 4-1-3 **レプリカ1のインスタンスエンドポイント向け接続設定**
@@ -476,7 +476,7 @@ analyze compression sh1.sales;
   Name    　　　　　　　　　: Replica1 Endpoint
   Database Server        : 事前作成されているap96-clusterのレプリカ1のDBインスタンスエンドポイント
   ```
-  * **「Ping Server」ボタンをクリツクし接続確認**
+  * **「Ping Server」ボタンをクリックし接続確認**
   * 上記を設定したタブを閉じる
 
 ### 4-1-3 **レプリカ2のインスタンスエンドポイント向け接続設定**
@@ -488,7 +488,7 @@ analyze compression sh1.sales;
   Name    　　　　　　　　　: Replica1 Endpoint
   Database Server        : 事前作成されているap96-clusterのレプリカ2のDBインスタンスエンドポイント
   ```
-  * **「Ping Server」ボタンをクリツクし接続確認**
+  * **「Ping Server」ボタンをクリックし接続確認**
   * 上記を設定したタブを閉じる
 
 # 5. ハンズオン
