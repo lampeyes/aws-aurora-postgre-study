@@ -618,6 +618,7 @@ analyze compression sh1.sales;
 ## 5-2. フェイルオーバー  （オプション）
 * フェイルオーバーの優先度の確認後、フェイルオーバーさせ、フェイルオーバー完了までの時間やフェイルオーバー先の制御を体験していただきます。
   * **フェイルオーバーの優先度は以下のように設定済み**
+  
   |DBインスタンス識別子|フェイルオーバー優先度|プライマリーインスタンス?|
   |---:|:---|:---|
   |ap96|2|Primary Instance|
@@ -748,6 +749,7 @@ analyze compression sh1.sales;
         ```
 
         * 結果は以下の通り
+	
         ```
         objectname |         GB          
         -----------+---------------------
@@ -839,8 +841,67 @@ analyze compression sh1.sales;
       * 「**Continue with Uncommited**」ボタンをクリックしトランザクションをRollbackします。
     
 
-### 5-3-3. 遅延分析及びチューニング　その３
-  * **TBD さらにオプションのチューニング例を追記するかもしれない。**
+### 5-3-3. 遅延分析及びチューニング　その３ （オプション）
+  * **時間に余裕のある方のみ**
+
+  * **前の操作で mydb に接続している 2つの DbVisualizer をそのまま利用します**
+  * 1つ目の DbVisualizer で以下の無名PL/pgSQLスクリプトをSQL Commander へコピーペースト → 「メニュー」→「SQL Commander」→「Execute Buffer」（▶︎アイコンと赤い●アイコンが組み合わされている）を洗濯して実行します。（このスクリプトは無限ループし1vCPUのコアを消費し続けます）
+  ```
+  DO $$BEGIN
+    LOOP
+      --
+    END LOOP;
+  END$$;
+  ```
+
+  * **プライマリインスタンスのDBインスタンス名を確認** 
+    * この例ではプライマリーインスタンスへ接続していますが、パフォーマンスインサイトが有効なインスタンスは、DBインスタンス名でリストされているためプライマリーインスタンスとなっているDBインスタンス名を確認しておく必要があります。
+
+    * 確認方法は次の通り
+      * 「サービス」→「RDS」→「クラスター」→「クラスターメンバー」ペイン → 「ロール」列が **書き込み** となっている「dbインスタンス」をメモ帳などにコピーしておきます。
+    * マネージメントコンソール →「サービス」→「RDS」→「パフォーマンスインサイト」→ 前述の方法で確認したDBインスタンのリンク
+      * Performance Insights → 「時間軸」→「5分」→ グラフ右横の「スライス基準」メニュー → 「待機」
+      * Performance Insights →　グラフ下方のTop Load Itel Tableのスライス基準 →「SQL」
+
+      * **Performance InsightsのグラフからCPU利用率100%のセッションが 1 つあることを確認**
+
+  　* 2つ目の DvVisualizer で以下のSQL文を何度か実行してください。(1 行ヒットするまで実行して見てください) **Schema は public** になっていることを確認してください。
+    ```
+    SELECT
+      pid
+      , now() - query_start AS "elapsed_time"
+      , usename
+      , datname
+      , wait_event_type
+      , wait_event
+      , state
+      , query
+    FROM
+     pg_stat_activity
+    WHERE
+      now() - query_start > '10 seconds'::interval
+      AND  state = 'active'
+    ORDER BY
+      elapsed_time DESC;
+    ```
+    * このクエリーでは実行時間が10秒以上経過したSQL文を取得するようにしています。該当クエリーが長時間実行されているいわゆるかけ逃げクエリーであれば、セッションをキャンセルすることも可能です。
+    * 前述のクエリーを実行したDbVisualizerのSQL Commanderから以下のSQL文を実行してください。
+    ```
+    SELECT pg_cancel_backend( **前述のクエリーで得られたpidの値** );
+    ```
+
+    * 以下の結果が返されます。
+    ```
+    pg_cancel_backend
+    -----------------
+    true
+    ```
+
+    * 無限ループするPL/pgSQLを実行しているセッションでは以下のエラーを受け取り処理がキャンセルされます。
+   ```
+   ERROR:  canceling statement due to user request
+   CONTEXT:  PL/pgSQL function inline_code_block line 2 at LOOP 
+   ```
 
 
 ## お疲れ様でした。これでハンズオンは終了です。
