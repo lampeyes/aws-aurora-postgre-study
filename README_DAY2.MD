@@ -696,8 +696,6 @@ analyze compression sh1.sales;
     * Top Load Item Table上部のスライス →　「待機」、下部のスライス → 「SQL」を選択し、時間軸から 5 分を選択 →
     * 数秒程度のSQL文が見つかるはずです。グラフが小さい場合は、拡大したい範囲をマウスで選択することで拡大できます。
     * SQL文横の▶︎アイコンをクリックしてドリルダウンするとSQL文が現れるはずです。
-    ![Performance Insights](https://github.com/lampeyes/aws-aurora-postgre-study/blob/master/handson_day2_aurora_postgresql_001.png "遅延分析及びチューニング　その１")
-
 
       * このSQL文の待機イベントの傾向からどのようなことが言えますか？
       * バッファキャッシュに乗っている状態であれば、2秒程度で、待機イベントはCPUバウンドな傾向を示しているはずです。
@@ -846,7 +844,6 @@ analyze compression sh1.sales;
 
   * **前の操作で mydb に接続している 2つの DbVisualizer をそのまま利用します**
   * 1つ目の DbVisualizer で以下の無名PL/pgSQLスクリプトをSQL Commander へコピーペースト → 「メニュー」→「SQL Commander」→「Execute Buffer」（▶︎アイコンと赤い●アイコンが組み合わされている）を洗濯して実行します。（このスクリプトは無限ループし1vCPUのコアを消費し続けます
-  
   ```
   DO $$BEGIN
     LOOP
@@ -884,24 +881,24 @@ analyze compression sh1.sales;
      elapsed_time DESC;
     ```
     
-   * このクエリーでは実行時間が10秒以上経過したSQL文を取得するようにしています。該当クエリーが長時間実行されているいわゆるかけ逃げクエリーであれば、セッションをキャンセルすることも可能です。
-   * 前述のクエリーを実行したDbVisualizerのSQL Commanderから以下のSQL文を実行してください。
-   ```
-   SELECT pg_cancel_backend( **前述のクエリーで得られたpidの値** );
-   ```
+    * このクエリーでは実行時間が10秒以上経過したSQL文を取得するようにしています。該当クエリーが長時間実行されているいわゆるかけ逃げクエリーであれば、セッションをキャンセルすることも可能です。
+    * 前述のクエリーを実行したDbVisualizerのSQL Commanderから以下のSQL文を実行してください。
+    ```
+    SELECT pg_cancel_backend( **前述のクエリーで得られたpidの値** );
+    ```
 
-   * 以下の結果が返されます。
-   ```
-   pg_cancel_backend
-   -----------------
-   true
-   ```
+    * 以下の結果が返されます。
+    ```
+    pg_cancel_backend
+    -----------------
+    true
+    ```
 
-   * 無限ループするPL/pgSQLを実行しているセッションでは以下のエラーを受け取り処理がキャンセルされます。
-   ```
-   ERROR:  canceling statement due to user request
-   CONTEXT:  PL/pgSQL function inline_code_block line 2 at LOOP 
-   ```
+    * 無限ループするPL/pgSQLを実行しているセッションでは以下のエラーを受け取り処理がキャンセルされます。
+    ```
+    ERROR:  canceling statement due to user request
+    CONTEXT:  PL/pgSQL function inline_code_block line 2 at LOOP 
+    ```
 
 ## お疲れ様でした。これでハンズオンは終了です。
 ## **ハンズオン環境の削除等はこちらで行います。そのままにしておいていただいて結構です。**
