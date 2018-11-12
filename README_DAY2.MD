@@ -703,11 +703,11 @@ analyze compression sh1.sales;
 
   * フェイルオーバーが発生後、イベントサブスクリクションで登録したメールアドレスへフェイルオーバーの通知が届きます。どのような内容のメールが届くのかご確認ください。
     * 「最近のイベント」ペインに以下のようなイベントが記録されていることも確認します。
-    
-    ```
-    Completed failover to DB instance: ap96-XXX-1d
-    Started cross AZ failover to DB instance: ap96-XXX-1d
-    ```
+
+      ```
+      Completed failover to DB instance: ap96-XXX-1d
+      Started cross AZ failover to DB instance: ap96-XXX-1d
+      ```
 
 
 ## 5-3. Performance Insights
@@ -744,14 +744,14 @@ analyze compression sh1.sales;
       explain analyze SELECT COUNT(ref_no) FROM t1 WHERE ref_no BETWEEN 1 AND 250;
       ```
         * 実行計画は以下の通りです。
-        ```
-        Aggregate  (cost=289382.49..289382.50 rows=1 width=8) (actual time=2160.475..2160.475 rows=1 loops=1)
-        ->  Seq Scan on t1  (cost=0.00..283334.00 rows=2419397 width=5) (actual time=0.093..1994.440 rows=2500000 loops=1)
-          Filter: ((ref_no >= '1'::numeric) AND (ref_no <= '250'::numeric))
-          Rows Removed by Filter: 7500000
-        Planning time: 0.074 ms
-        Execution time: 2160.498 ms
-        ```
+          ```
+          Aggregate  (cost=289382.49..289382.50 rows=1 width=8) (actual time=2160.475..2160.475 rows=1 loops=1)
+          ->  Seq Scan on t1  (cost=0.00..283334.00 rows=2419397 width=5) (actual time=0.093..1994.440 rows=2500000 loops=1)
+            Filter: ((ref_no >= '1'::numeric) AND (ref_no <= '250'::numeric))
+            Rows Removed by Filter: 7500000
+          Planning time: 0.074 ms
+          Execution time: 2160.498 ms
+          ```
 
       * 以下の SQL文を SQL Commanderへコピーペーストし、「メニュー」→「SQL Commander」→「Execute」を選択しSQL文を実行して、セグメントサイズを確認してみてください。
 
@@ -793,7 +793,6 @@ analyze compression sh1.sales;
       * これらのことから、t1表のref_no列に索引が存在しないため、1GBのデータサイズ、かつ、 10,000,000行のデータを全表走査し、7,500,000行のデータを読み込んだ上で捨てていることがわかります。
       * この例では物理読み込みはキャッシュにヒットしているため影響していませんが、1GBは読み込み過ぎであるため、適切な索引があれば、フィルタリングによるCPU処理も全表走査の読み込み量も同時に減らせることになります。
       * ref_no以外に、seq_noも検索されそうなので、ref_no,seq_no列に索引を作成することで大きく改善します。(索引の作成に　**2,30秒**　程度要します)
-
       ```
       create index ix_t1 on t1(ref_no, seq_no);
       explain analyze SELECT COUNT(ref_no) FROM t1 WHERE ref_no BETWEEN 1 AND 250;
