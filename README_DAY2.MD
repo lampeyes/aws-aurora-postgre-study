@@ -520,7 +520,7 @@ analyze compression sh1.sales;
   * Performance Insightsを利用した分析及び、チューニングの流れを体験していただきます。
 
 
-### 5-1-1. 遅延分析及びチューニング　その１　
+### 5-1-1. 遅延分析及びチューニング　- 索引作成漏れ
   * 「サービス」→「RDS」→「パフォーマンスインサイト」→ DBインスタンス「ap96」ラジオボタンを選択　→　「データベースのロード」ペイン　を表示します。
   * DbVisualizer → 「Databases」タブ → 「Connections」ツリー → 「Cluster Endpoint」を選択、右クリック → ポップアップメニュー「Connect」
   * DbVisualizer → 「メニュー」→「SQL Commander」で、SQL Commanderペインを開きます。
@@ -612,7 +612,7 @@ analyze compression sh1.sales;
           Execution time: 624.940 ms
           ```
 
-### 5-1-2. 遅延分析及びチューニング　その２
+### 5-1-2. 遅延分析及びチューニング　- ロックの競合
   * 「サービス」→「RDS」→「パフォーマンスインサイト」→ DBインスタンス「ap96」ラジオボタンを選択　→　「データベースのロード」ペイン　を表示
   * DbVisualizerを 2つ起動して、それぞれ Cluster Endpointに接続し、メニューから「SQL Commander」を開いた状態にします。
   * DbVisualizer → 「Databases」タブ → 「Connections」ツリー → 「Cluster Endpoint」を選択、右クリック → ポップアップメニュー「Connect」を洗濯してDBへ接続します。
@@ -678,7 +678,7 @@ analyze compression sh1.sales;
         * 「**Continue with Uncommited**」ボタンをクリックしトランザクションをRollbackします。
 
 
-### 5-1-3. 遅延分析及びチューニング　その３ （オプション）
+### 5-1-3. 遅延分析及びチューニング　ー　掛け逃げクエリー対応
   * **時間に余裕のある方のみ**
 
   * **前の操作で mydb に接続している 2つの DbVisualizer をそのまま利用します**
