@@ -701,7 +701,7 @@ analyze compression sh1.sales;
      * Performance Insights →　グラフ下方のTop Load Itel Tableのスライス基準 →「SQL」
      * **Performance InsightsのグラフからCPU利用率100%のセッションが 1 つあることを確認**
 
-    * 2つ目の DvVisualizer で以下のSQL文を何度か実行してください。(1 行ヒットするまで実行して見てください) **Schema は public** になっていることを確認します。
+    * 2つ目の DvVisualizer で以下のSQL文を何度か実行してください。(1 行ヒットするまで実行して見てください) 
     * 以下のクエリーでは実行時間が10秒以上経過したSQL文を取得しています。
 
     ```
