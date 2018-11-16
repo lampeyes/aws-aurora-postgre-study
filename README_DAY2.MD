@@ -69,7 +69,6 @@ Password  : （上記で入力したパスワード）
 
 ### 3-1.1. WLM関連ビューの作成（オプション）
 * WLM_QUEUE_STATE_VW（キュー状態を確認するためのビュー）を作成します。
-  * 今回の環境では作成済みなので、以下のSQLの実行はオプションです。
 ```
 drop view WLM_QUEUE_STATE_VW
 ;
@@ -96,7 +95,6 @@ and config.service_class > 4
 order by config.service_class;
 ```
 * WLM_QUERY_STATE_VW（クエリー状態を確認するためのビュー）を作成します。
-  * 今回は作成済みなので、以下のSQLの実行はオプションです。
 
 ```
 drop view WLM_QUERY_STATE_VW
